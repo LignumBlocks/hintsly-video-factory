@@ -1,4 +1,4 @@
-from engine.domain.entities import Shot
+from domain.entities import Shot
 
 class RegenerateShot:
     def __init__(self, process_shot):

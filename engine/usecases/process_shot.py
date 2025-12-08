@@ -1,4 +1,4 @@
-from engine.domain.entities import Shot
+from domain.entities import Shot
 
 class ProcessShot:
     def __init__(self, fs, prompt_service, image_client, video_client):

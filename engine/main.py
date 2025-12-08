@@ -1,12 +1,12 @@
 from fastapi import FastAPI
-from engine.domain.entities import Shot
-from engine.usecases.process_shot import ProcessShot
-from engine.usecases.regenerate_shot import RegenerateShot
-from engine.usecases.utils_prompt import PromptService
-from engine.adapters.fs_adapter import FSAdapter
-from engine.adapters.gemini_client import GeminiClient
-from engine.adapters.veo_client import VeoClient
-from engine.adapters.logger import Logger
+from domain.entities import Shot
+from usecases.process_shot import ProcessShot
+from usecases.regenerate_shot import RegenerateShot
+from usecases.utils_prompt import PromptService
+from adapters.fs_adapter import FSAdapter
+from adapters.gemini_client import GeminiClient
+from adapters.veo_client import VeoClient
+from adapters.logger import Logger
 
 app = FastAPI()
 

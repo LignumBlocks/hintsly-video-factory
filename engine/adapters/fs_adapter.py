@@ -1,8 +1,8 @@
 import os
 import shutil
 from pathlib import Path
-from engine.domain.entities import Shot
-from engine.infra.paths import ASSETS_DIR
+from domain.entities import Shot
+from infra.paths import ASSETS_DIR
 
 class FSAdapter:
     def _get_shot_dir(self, shot: Shot) -> Path:

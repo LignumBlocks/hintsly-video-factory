@@ -1,4 +1,4 @@
-from engine.domain.entities import Shot
+from domain.entities import Shot
 
 class PromptService:
     def generate_image_prompt(self, shot: Shot) -> str:
