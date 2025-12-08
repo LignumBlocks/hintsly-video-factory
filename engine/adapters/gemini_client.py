@@ -70,17 +70,10 @@ class KieNanoBananaClient:
                 "output_format": "png",
                 "image_size": "1:1"
             }
-        }
         
         logger.info(f"Submitting Kie.ai task with prompt: {prompt[:50]}...")
-        logger.info(f"URL: {url}")
-        logger.info(f"Headers: {headers}")
-        logger.info(f"Payload: {payload}")
         
         response = requests.post(url, headers=headers, json=payload, timeout=30)
-        
-        logger.info(f"Response status: {response.status_code}")
-        logger.info(f"Response text: {response.text}")
         
         if response.status_code != 200:
             error_msg = response.text
