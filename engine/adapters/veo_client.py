@@ -1,7 +1,7 @@
 import time
 import uuid
-from engine.adapters.logger import Logger
-from engine.domain.errors import VideoGenerationError
+from adapters.logger import Logger
+from domain.errors import VideoGenerationError
 
 logger = Logger()
 

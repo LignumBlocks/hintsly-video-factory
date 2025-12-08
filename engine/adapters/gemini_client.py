@@ -1,8 +1,8 @@
 import requests
 import json
-from engine.infra.config import Config
-from engine.domain.errors import ImageGenerationError, PromptError
-from engine.adapters.logger import Logger
+from infra.config import Config
+from domain.errors import ImageGenerationError, PromptError
+from adapters.logger import Logger
 
 logger = Logger()
 
