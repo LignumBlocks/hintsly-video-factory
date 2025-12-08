@@ -46,20 +46,36 @@ class FSAdapter:
             
         return str(file_path)
 
-    def save_video(self, shot: Shot, vid_url: str) -> str:
+    def save_video(self, shot: Shot, vid_data: str) -> str:
         shot_dir = self._get_shot_dir(shot)
         os.makedirs(shot_dir, exist_ok=True)
         file_path = shot_dir / "video.mp4"
         
+        # Handle Base64 Data URI (from Veo client)
+        if vid_data.startswith("data:"):
+            try:
+                header, encoded = vid_data.split(",", 1)
+                data = base64.b64decode(encoded)
+                with open(file_path, "wb") as f:
+                    f.write(data)
+                print(f"Video saved from base64: {len(data)} bytes")
+                return str(file_path)
+            except Exception as e:
+                print(f"Error saving base64 video: {e}")
+                error_path = shot_dir / "video_error.txt"
+                with open(error_path, "w") as f:
+                    f.write(f"Failed to decode video: {str(e)}")
+                return str(error_path)
+        
         # Check if it's a mock URL
-        if "mock" in vid_url:
+        elif "mock" in vid_data:
              with open(file_path, "w") as f:
-                 f.write(f"Simulated video content from {vid_url}")
+                 f.write(f"Simulated video content from {vid_data}")
         else:
-             # Try real download
+             # Try real download from URL
              try:
-                 print(f"Downloading video from {vid_url}...")
-                 with requests.get(vid_url, stream=True) as r:
+                 print(f"Downloading video from {vid_data}...")
+                 with requests.get(vid_data, stream=True, timeout=120) as r:
                      r.raise_for_status()
                      with open(file_path, 'wb') as f:
                          for chunk in r.iter_content(chunk_size=8192): 
@@ -67,7 +83,7 @@ class FSAdapter:
              except Exception as e:
                  print(f"Failed to download video: {e}")
                  with open(file_path, "w") as f:
-                     f.write(f"Failed to download video from {vid_url}. Error: {e}")
+                     f.write(f"Failed to download video from {vid_data}. Error: {e}")
             
         return str(file_path)
 
