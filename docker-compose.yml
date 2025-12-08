@@ -1,0 +1,46 @@
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    restart: always
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - /local-files:/files
+
+  hintsly-engine:
+    build:
+      context: /opt/hintsly-video-factory/engine
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      # Kie.ai API (for images and videos)
+      - KIE_API_KEY=${KIE_API_KEY}
+      - KIE_API_BASE=https://api.kie.ai
+      - KIE_NANO_BANANA_MODEL=google/nano-banana
+      - KIE_VEO_MODEL=veo3-fast
+      
+      # Public URL (CRITICAL for Veo image-to-video)
+      - PUBLIC_BASE_URL=https://engine.srv954959.hstgr.cloud
+      
+      # Google API (legacy/fallback)
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      
+      # App settings
+      - ASSETS_PATH=/assets/videos
+      - LOG_LEVEL=INFO
+    volumes:
+      - /opt/hintsly-video-factory/assets:/assets
+    ports:
+      - "127.0.0.1:8000:8000"
+
+volumes:
+  n8n_data:
+    external: true

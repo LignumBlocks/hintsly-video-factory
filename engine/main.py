@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from domain.entities import Shot
 from usecases.process_shot import ProcessShot
 from usecases.regenerate_shot import RegenerateShot
@@ -7,8 +8,13 @@ from adapters.fs_adapter import FSAdapter
 from adapters.gemini_client import GeminiImageClient
 from adapters.veo_client import VeoClient
 from adapters.logger import Logger
+from infra.paths import ASSETS_DIR
 
 app = FastAPI()
+
+# Mount static files to serve images publicly
+# This allows Kie.ai Veo to access images via URL
+app.mount("/assets", StaticFiles(directory=str(ASSETS_DIR)), name="assets")
 
 # Instantiate adapters
 fs_adapter = FSAdapter()
