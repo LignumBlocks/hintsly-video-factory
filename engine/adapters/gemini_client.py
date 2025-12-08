@@ -70,6 +70,7 @@ class KieNanoBananaClient:
                 "output_format": "png",
                 "image_size": "1:1"
             }
+        }
         
         logger.info(f"Submitting Kie.ai task with prompt: {prompt[:50]}...")
         

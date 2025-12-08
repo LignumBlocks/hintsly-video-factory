@@ -34,7 +34,7 @@ def verify_kie_api():
     client = KieNanoBananaClient()
 
     # Test prompt
-    prompt = "A vintage Cuban car in bright turquoise color parked on a colorful street in Havana, golden hour lighting, photorealistic, 8k"
+    prompt = "A vintage japanes car in bright turquoise color parked on a colorful street in Havana, golden hour lighting, photorealistic, 8k"
     
     print(f"\n🎨 Prompt: {prompt[:60]}...")
     print("\n🚀 Generando imagen...")
