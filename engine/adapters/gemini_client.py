@@ -1,90 +1,186 @@
+import time
 import requests
-import json
-from infra.config import Config
-from domain.errors import ImageGenerationError, PromptError
 from adapters.logger import Logger
+from domain.errors import ImageGenerationError, PromptError
+from infra.config import Config
 
 logger = Logger()
 
-class GeminiImageClient:
+class KieNanoBananaClient:
+    """
+    Client for Kie.ai Nano Banana API (google/nano-banana-pro).
+    Uses async task-based API with polling.
+    """
+    
     def __init__(self):
-        self.api_key = Config.GEMINI_API_KEY
-        self.endpoint = Config.GEMINI_IMAGE_ENDPOINT
+        self.api_key = Config.KIE_API_KEY
+        self.base_url = Config.KIE_API_BASE
+        self.model = Config.KIE_NANO_BANANA_MODEL
+        self.poll_interval = 3  # seconds
+        self.max_polls = 60  # max ~3 minutes
         
         if not self.api_key:
-            logger.warning("GEMINI_API_KEY not found in environment variables.")
+            logger.warning("KIE_API_KEY not found in environment variables.")
 
     def generate(self, prompt: str) -> str:
+        """
+        Generate an image using Kie.ai Nano Banana API.
+        
+        Args:
+            prompt: Text prompt for image generation
+            
+        Returns:
+            URL of the generated image
+        """
         if not self.api_key:
-            raise ImageGenerationError("GEMINI_API_KEY is missing")
+            raise ImageGenerationError("KIE_API_KEY is missing")
 
         if not prompt:
             raise PromptError("Prompt cannot be empty")
 
-        url = f"{self.endpoint}?key={self.api_key}"
+        try:
+            # Step 1: Create task
+            task_id = self._create_task(prompt)
+            
+            # Step 2: Poll until completion
+            image_url = self._poll_until_complete(task_id)
+            
+            # Step 3: Download and return as data URI
+            return self._download_image(image_url)
+
+        except ImageGenerationError:
+            raise
+        except Exception as e:
+            logger.error(f"Kie.ai Nano Banana generation failed: {e}")
+            raise ImageGenerationError(f"Image generation failed: {e}")
+
+    def _create_task(self, prompt: str) -> str:
+        """Submit image generation task to Kie.ai API."""
+        url = f"{self.base_url}/api/v1/jobs/createTask"
         
         headers = {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}"
         }
         
-        # Payload structure for Gemini generateContent
         payload = {
-            "contents": [{
-                "parts": [{"text": prompt}]
-            }],
-            # Optional: Add generationConfig if needed for image params
+            "model": self.model,
+            "input": {
+                "prompt": prompt,
+                "output_format": "png",
+                "image_size": "1:1"
+            }
         }
+        
+        logger.info(f"Submitting Kie.ai task with prompt: {prompt[:50]}...")
+        logger.info(f"URL: {url}")
+        logger.info(f"Headers: {headers}")
+        logger.info(f"Payload: {payload}")
+        
+        response = requests.post(url, headers=headers, json=payload, timeout=30)
+        
+        logger.info(f"Response status: {response.status_code}")
+        logger.info(f"Response text: {response.text}")
+        
+        if response.status_code != 200:
+            error_msg = response.text
+            logger.error(f"Kie.ai API error: {error_msg}")
+            raise ImageGenerationError(f"Kie.ai API returned {response.status_code}: {error_msg}")
+        
+        data = response.json()
+        
+        if data.get("code") != 200:
+            raise ImageGenerationError(f"Kie.ai error: {data.get('msg')}")
+        
+        task_id = data.get("data", {}).get("taskId")
+        
+        if not task_id:
+            raise ImageGenerationError(f"No taskId in response: {data}")
+        
+        logger.info(f"Kie.ai task created: {task_id}")
+        return task_id
 
-        try:
-            logger.info(f"Sending request to Gemini Image API for prompt: {prompt[:30]}...")
-            response = requests.post(url, headers=headers, json=payload, timeout=30)
-            response.raise_for_status()
+    def _poll_until_complete(self, task_id: str) -> str:
+        """Poll task status until image is ready."""
+        url = f"{self.base_url}/api/v1/jobs/recordInfo"
+        
+        headers = {
+            "Authorization": f"Bearer {self.api_key}"
+        }
+        
+        for attempt in range(self.max_polls):
+            logger.info(f"Polling Kie.ai task (attempt {attempt + 1}/{self.max_polls})...")
+            
+            response = requests.get(url, headers=headers, params={"taskId": task_id}, timeout=30)
+            
+            if response.status_code != 200:
+                logger.warning(f"Poll returned {response.status_code}: {response.text}")
+                time.sleep(self.poll_interval)
+                continue
             
             data = response.json()
             
-            # TODO: Inspect actual response structure for Gemini Image Generation
-            # This is a naive implementation assuming it might return inline data or an error
-            # We will use the verification script to inspect the actual JSON and adjust.
+            if data.get("code") != 200:
+                logger.warning(f"Poll error: {data.get('message')}")
+                time.sleep(self.poll_interval)
+                continue
             
-            # Check for candidates
-            if "candidates" not in data or not data["candidates"]:
-                raise ImageGenerationError(f"No candidates returned: {data}")
+            task_data = data.get("data", {})
+            state = task_data.get("state")
             
-            try:
-                # Expecting base64 data in inline_data or similar
-                # Just returning raw data for now to inspect in verify script if structure is unknown
-                # But for the adapter contract, we need to return a string (url or base64)
+            # States: waiting, queuing, generating, success, fail
+            if state == "success":
+                logger.info("Kie.ai task completed!")
                 
-                # Common Gemini structure for text:
-                # candidate = data["candidates"][0]
-                # part = candidate["content"]["parts"][0]
-                # text = part["text"]
+                # Parse resultJson which contains resultUrls
+                result_json_str = task_data.get("resultJson", "{}")
+                import json
+                result_obj = json.loads(result_json_str)
                 
-                # For Image, it complicates things. Let's try to find inline_data
-                candidate = data["candidates"][0]
-                # Traverse parts
-                if "content" in candidate and "parts" in candidate["content"]:
-                    for part in candidate["content"]["parts"]:
-                        if "inlineData" in part:
-                             # It's base64
-                             mime_type = part["inlineData"]["mimeType"] # e.g. "image/png"
-                             b64_data = part["inlineData"]["data"]
-                             return f"data:{mime_type};base64,{b64_data}"
-                        if "text" in part:
-                            # It might have refused or returned text description
-                            logger.warning(f"Gemini returned text instead of image: {part['text']}")
+                result_urls = result_obj.get("resultUrls", [])
+                if result_urls:
+                    return result_urls[0]
                 
-                # If we get here, we didn't find an image
-                raise ImageGenerationError("No image data found in response")
+                raise ImageGenerationError(f"No resultUrls in response: {result_obj}")
+            
+            elif state == "fail":
+                fail_code = task_data.get("failCode", "")
+                fail_msg = task_data.get("failMsg", "Unknown error")
+                raise ImageGenerationError(f"Kie.ai task failed [{fail_code}]: {fail_msg}")
+            
+            # Still processing (waiting, queuing, generating)
+            logger.info(f"Task state: {state}")
+            time.sleep(self.poll_interval)
+        
+        raise ImageGenerationError(f"Kie.ai task timed out after {self.max_polls * self.poll_interval} seconds")
 
-            except KeyError as e:
-                raise ImageGenerationError(f"Unexpected response structure: {e}")
+    def _download_image(self, image_url: str) -> str:
+        """Download image and return as data URI."""
+        import base64
+        
+        logger.info(f"Downloading image from: {image_url[:50]}...")
+        
+        response = requests.get(image_url, timeout=60)
+        
+        if response.status_code != 200:
+            raise ImageGenerationError(f"Failed to download image: {response.status_code}")
+        
+        # Determine mime type from content-type header or default to png
+        content_type = response.headers.get("Content-Type", "image/png")
+        if "jpeg" in content_type or "jpg" in content_type:
+            mime_type = "image/jpeg"
+        elif "webp" in content_type:
+            mime_type = "image/webp"
+        else:
+            mime_type = "image/png"
+        
+        image_bytes = response.content
+        image_b64 = base64.b64encode(image_bytes).decode("utf-8")
+        
+        logger.info(f"Image downloaded: {len(image_bytes)} bytes")
+        
+        return f"data:{mime_type};base64,{image_b64}"
 
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Gemini API request failed: {e}")
-            if e.response is not None:
-                logger.error(f"Response: {e.response.text}")
-            raise ImageGenerationError(f"Network error: {e}")
-        except Exception as e:
-            logger.error(f"Error during image generation: {e}")
-            raise ImageGenerationError(str(e))
+
+# Alias for backward compatibility
+GeminiImageClient = KieNanoBananaClient
