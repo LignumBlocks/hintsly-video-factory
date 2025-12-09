@@ -24,8 +24,8 @@ services:
       # Kie.ai API (for images and videos)
       - KIE_API_KEY=${KIE_API_KEY}
       - KIE_API_BASE=https://api.kie.ai
-      - KIE_NANO_BANANA_MODEL=google/nano-banana
-      - KIE_VEO_MODEL=veo3-fast
+      - KIE_NANO_BANANA_MODEL=${KIE_NANO_BANANA_MODEL}
+      - KIE_VEO_MODEL=${KIE_VEO_MODEL}
       
       # Public URL (CRITICAL for Veo image-to-video)
       - PUBLIC_BASE_URL=https://engine.srv954959.hstgr.cloud

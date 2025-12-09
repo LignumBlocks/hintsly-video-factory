@@ -159,14 +159,25 @@ class KieVeoClient:
             # 0 = generating, 1 = success, 2/3 = failed
             if success_flag == 1:
                 logger.info("Kie.ai Veo task completed!")
+                logger.info(f"Response raw: {task_data}") # Debug log
                 
-                # Parse resultUrls which is a JSON string
-                result_urls_str = task_data.get("resultUrls", "[]")
-                result_urls = json.loads(result_urls_str)
+                # Try to get resultUrls from 'response' object (as list)
+                response_obj = task_data.get("response", {})
+                if isinstance(response_obj, dict):
+                    result_urls = response_obj.get("resultUrls", [])
+                    if result_urls and isinstance(result_urls, list):
+                        return result_urls[0]
                 
-                if result_urls:
-                    return result_urls[0]
-                
+                # Fallback: try parsing resultUrls as JSON string (old format)
+                result_urls_str = task_data.get("resultUrls")
+                if result_urls_str:
+                    try:
+                        result_urls = json.loads(result_urls_str)
+                        if result_urls:
+                            return result_urls[0]
+                    except json.JSONDecodeError:
+                        pass
+
                 raise VideoGenerationError(f"No resultUrls in response: {task_data}")
             
             elif success_flag in [2, 3]:
