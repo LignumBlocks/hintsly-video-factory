@@ -82,6 +82,8 @@ class KieVeoClient:
             "aspectRatio": "16:9",
             "imageUrls": [image_url]
         }
+
+        print(f" Estee es el modelooo {self.model}")
         
         logger.info(f"Submitting Kie.ai Veo job with prompt: {prompt[:50]}...")
         logger.info(f"Image URL: {image_url}")
