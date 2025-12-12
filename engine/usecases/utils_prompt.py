@@ -17,10 +17,11 @@ class PromptService:
         # Build context prefix from mv_context
         # Map common mv_context values to style prefixes
         context_map = {
-            "REAL_CHAOS": "In a chaotic, realistic documentary style",
+            "REAL_CHAOS": "In a realistic, raw, slightly chaotic everyday environment (REAL_CHAOS)",
+            "LAB_WIDE": "Wide shot of the high-tech Financial War Room (LAB_WIDE)",
+            "LAB_TABLE": "Close-up on the central holographic command table (LAB_TABLE)",
+            "DATA_PANEL": "Focus on a digital data interface or screen element (DATA_PANEL)",
             "CINEMATIC": "In a cinematic, dramatic style",
-            "MINIMALIST": "In a minimalist, clean style",
-            "VINTAGE": "In a vintage, nostalgic style",
         }
         context_prefix = context_map.get(shot.mv_context, f"In a {shot.mv_context.lower().replace('_', ' ')} style")
         
