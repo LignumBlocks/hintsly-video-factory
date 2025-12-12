@@ -51,7 +51,7 @@ class TestFullFlowGeneration(unittest.TestCase):
             "mv_context": "LAB_TABLE",
             "asset_id": "LAB_CREDITSYSTEM_TABLE",
             "asset_mode": "IMAGE_1F_VIDEO",
-            "camera_move": "Zoom In",
+            "camera_move": "zoom_in",
             "duracion_seg": 8.0,
             "texto_voz_resumido": "Person A buys a twenty-five-thousand-dollar car with a 650 score. Person B buys the exact same car with a 710 score. Same car. Same job. Same income.",
             "descripcion_visual": "Isometric view of the central credit system table in the Financial War Room. On the smoked-glass surface there are two identical matte black data modules labeled visually as Person A and Person B (no readable text), each with a single teal cable running towards a vertical risk structure in the background.",

@@ -40,8 +40,25 @@ class PromptService:
         Uses V2 fields: camera_move, duracion_seg, descripcion_visual.
         """
         visual_desc = shot.descripcion_visual.strip().rstrip(".")
-        movement = shot.camera_move.strip()
+        raw_move = shot.camera_move.strip().lower()
         duration = shot.duracion_seg
+        
+        move_map = {
+            "static": "Static camera",
+            "zoom_in": "Slow zoom in",
+            "zoom_out": "Slow zoom out",
+            "dolly_in": "Smooth dolly in",
+            "dolly_out": "Smooth dolly out",
+            "orbit_left": "Orbiting left", 
+            "orbit_right": "Orbiting right",
+            "pan_left": "Panning left",
+            "pan_right": "Panning right",
+            "tilt_up": "Tilting up",
+            "tilt_down": "Tilting down",
+            "handheld_subtle": "Subtle handheld camera movement"
+        }
+        
+        movement = move_map.get(raw_move, raw_move)
         
         # Include duration hint for motion pacing
         prompt = f"{movement} of {visual_desc}, {duration} seconds duration. {VIDEO_STYLE}"
