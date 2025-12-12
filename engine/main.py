@@ -16,15 +16,26 @@ app = FastAPI()
 # This allows Kie.ai Veo to access images via URL
 app.mount("/assets", StaticFiles(directory=str(ASSETS_DIR)), name="assets")
 
+from adapters.assets_repository import AssetsRepository
+from infra.config import Config
+
 # Instantiate adapters
 fs_adapter = FSAdapter()
 prompt_service = PromptService()
 gemini_client = GeminiImageClient()
 veo_client = VeoClient()
 logger = Logger()
+assets_repository = AssetsRepository(Config.ASSETS_CATALOG_PATH, Config.ASSETS_FILES_DIR)
 
 # Instantiate use cases
-process_shot_usecase = ProcessShot(fs_adapter, prompt_service, gemini_client, veo_client, logger)
+process_shot_usecase = ProcessShot(
+    fs_adapter, 
+    prompt_service, 
+    gemini_client, 
+    veo_client, 
+    logger,
+    assets_repository
+)
 regenerate_shot_usecase = RegenerateShot(process_shot_usecase)
 
 @app.post("/shots/process")

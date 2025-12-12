@@ -1,0 +1,285 @@
+{
+    "asset_pack_id": "HL_CORE_LAB_BASE_V02",
+    "descripcion": "Pack de assets base del Hintsly Lab (inmueble, HUDs, módulos de crédito, iconos y avatares). Todos los archivos viven en un único folder y se referencian por 'file_name'.",
+    "assets": [
+        {
+            "asset_id": "LAB_ISOMETRIC_MAIN",
+            "file_name": "HL_Core_Lab_Isometric_Main_v01",
+            "tipo_asset": "MV_BACKGROUND",
+            "mv_context_default": "LAB_WIDE",
+            "descripcion_visual": "Vista isométrica amplia del Hintsly Lab con mesa central, paredes y racks de servidores.",
+            "uso_sugerido": "Plano maestro del laboratorio, establishing shots y fondos amplios.",
+            "notas": "Tomar como wide canónico del lab."
+        },
+        {
+            "asset_id": "LAB_WALL_NORTH",
+            "file_name": "HL_Core_Lab_Wall_North_v01",
+            "tipo_asset": "MV_BACKGROUND",
+            "mv_context_default": "LAB_WALL_NORTH",
+            "descripcion_visual": "Pared de datos principal vista de frente, con tres grandes dashboards y la mesa delante.",
+            "uso_sugerido": "Fondos para explicaciones de datos y resultados.",
+            "notas": ""
+        },
+        {
+            "asset_id": "LAB_WALL_SOUTH",
+            "file_name": "HL_Core_Lab_Wall_South_v01",
+            "tipo_asset": "MV_BACKGROUND",
+            "mv_context_default": "LAB_WALL_SOUTH",
+            "descripcion_visual": "Pared de entrada con puertas de cristal y logo Hintsly, bancos laterales y mesa en primer plano.",
+            "uso_sugerido": "Intro, outro, branding del laboratorio y momentos de transición.",
+            "notas": ""
+        },
+        {
+            "asset_id": "LAB_WALL_COLUMNS_STATS",
+            "file_name": "HL_Core_Lab_Wall_ColumnsStats_v01",
+            "tipo_asset": "MV_BACKGROUND",
+            "mv_context_default": "LAB_WALL_COLUMNS",
+            "descripcion_visual": "Pared lateral con columnas de cristal y gráficos holográficos en las columnas.",
+            "uso_sugerido": "Fondos laterales cuando queremos sensación de profundidad y datos alrededor.",
+            "notas": ""
+        },
+        {
+            "asset_id": "LAB_WALL_WEST_EXPERIMENTS",
+            "file_name": "HL_Core_Lab_Wall_West_Experiments_v01",
+            "tipo_asset": "MV_BACKGROUND",
+            "mv_context_default": "LAB_WALL_EXPERIMENTS",
+            "descripcion_visual": "Pared de experimentos con módulos numerados (001–004) conectados al logo central de Hintsly.",
+            "uso_sugerido": "Fondos para hablar de la biblioteca de tests y del Test 001.",
+            "notas": "Pared canónica de experiments / biblioteca."
+        },
+        {
+            "asset_id": "LAB_CREDITSYSTEM_TABLE",
+            "file_name": "HL_Core_Lab_CreditSystem_Table_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Mesa de cristal con bloque dorado y tarjeta negra conectados por líneas teal al grid del lab.",
+            "uso_sugerido": "Representar el sistema de fijación de precio del banco (core del protocolo).",
+            "notas": "Hero table del Clean Score Jump."
+        },
+        {
+            "asset_id": "CREDIT_STAIRCASE_TABLE",
+            "file_name": "HL_Core_Credit_Staircase_Table_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Escalera de cristal de bandas de score montada sobre la mesa del laboratorio.",
+            "uso_sugerido": "Cuando la metáfora de escalones tiene que vivir explícitamente encima de la mesa.",
+            "notas": ""
+        },
+        {
+            "asset_id": "CREDIT_STAIRCASE_MAIN",
+            "file_name": "HL_Core_Credit_Staircase_Main_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Escalera de bandas de score en vista isométrica 3/4, de ámbar a verde.",
+            "uso_sugerido": "Visual primario de bandas de score (Poor/Fair/Good/etc).",
+            "notas": "Flotante, se puede componer sobre cualquier fondo."
+        },
+        {
+            "asset_id": "CREDIT_STAIRCASE_SIDE",
+            "file_name": "HL_Core_Credit_Staircase_Side_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Escalera de score vista de lado, mostrando diferencia de altura entre bandas.",
+            "uso_sugerido": "Refuerzo visual cuando queremos enfatizar salto de un escalón a otro.",
+            "notas": ""
+        },
+        {
+            "asset_id": "CREDIT_TIMELINE_SNAPSHOT",
+            "file_name": "HL_Core_Credit_Timeline_Snapshot_v02",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Módulo de línea de tiempo con marcadores de statement date y due date y bloque de saldo.",
+            "uso_sugerido": "Explicar timing de snapshot, fechas de corte vs vencimiento.",
+            "notas": "Usar esta versión v02 como estándar."
+        },
+        {
+            "asset_id": "CREDIT_SNAPSHOT_CAMERA",
+            "file_name": "HL_Core_Credit_SnapshotCamera_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_HUD",
+            "descripcion_visual": "Cámara futurista integrada en la pared con iris de cristal y brillos ámbar/teal.",
+            "uso_sugerido": "Icono oficial de snapshot / foto del reporte.",
+            "notas": "Tratar como asset icónico al nivel del bloque dorado."
+        },
+        {
+            "asset_id": "CREDIT_SCOREGAUGE_HUD",
+            "file_name": "HL_Core_Credit_ScoreGauge_HUD_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_HUD",
+            "descripcion_visual": "Gauge semicircular de score con bandas rojo–ámbar–verde y aguja en una banda media.",
+            "uso_sugerido": "Cuando hablamos de bandas de score como dial en lugar de escalera.",
+            "notas": ""
+        },
+        {
+            "asset_id": "CREDIT_BEFORE_AFTER_RESULTS",
+            "file_name": "HL_Core_Credit_BeforeAfterResults_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Panel dividido BEFORE/AFTER con bloques de tasa, pago mensual e intereses totales.",
+            "uso_sugerido": "Plantilla fija para comparar condiciones antiguas vs nuevas en cualquier experimento.",
+            "notas": ""
+        },
+        {
+            "asset_id": "CREDIT_REPORT_PANEL",
+            "file_name": "HL_Core_Credit_ReportPanel_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Panel de reporte de crédito con varias filas de cuentas e indicadores de estado.",
+            "uso_sugerido": "Visual neutro de reporte de crédito para cualquier hack.",
+            "notas": "Core reusable."
+        },
+        {
+            "asset_id": "CREDIT_EXAMMODE_MODULE",
+            "file_name": "HL_Core_Credit_ExamMode_Module_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Botón de cristal tipo Exam Mode / AZEO sobre consola de vidrio ahumado.",
+            "uso_sugerido": "Mostrar activación de AZEO / Exam Mode (Move 1).",
+            "notas": ""
+        },
+        {
+            "asset_id": "CREDIT_FIVECARDS_UTILIZATION",
+            "file_name": "HL_Core_Credit_FiveCardsUtilization_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Plataforma con cinco tarjetas y barras de utilización flotantes más gauge agregado.",
+            "uso_sugerido": "Visualizar utilización por tarjeta y utilización total.",
+            "notas": ""
+        },
+        {
+            "asset_id": "CREDIT_BORROWHISTORY_MODULE",
+            "file_name": "HL_Core_Credit_BorrowHistory_Module_v02",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Módulo con plataforma dorada (mentor) y azul (usuario) unidas por cable teal.",
+            "uso_sugerido": "Explicar líneas de usuario autorizado y transferencia de historial.",
+            "notas": "Diferencia de color oro/azul pensada para entenderlo de un vistazo."
+        },
+        {
+            "asset_id": "CREDIT_MANUALREVIEW_MODULE",
+            "file_name": "HL_Core_Credit_ManualReview_Module_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Módulo de revisión manual con haz de luz que resalta solo ciertas líneas del reporte.",
+            "uso_sugerido": "Cuando hablamos de lenders que ignoran líneas AU o revisan manualmente.",
+            "notas": ""
+        },
+        {
+            "asset_id": "CREDIT_DEBTFLOW_HUD",
+            "file_name": "HL_Core_Credit_DebtFlowHUD_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_HUD",
+            "descripcion_visual": "HUD circular con nodos y flechas que representan flujo de deuda.",
+            "uso_sugerido": "Mostrar rutas de deuda, consolidaciones o flujos de dinero entre cuentas.",
+            "notas": ""
+        },
+        {
+            "asset_id": "BUDGET_MODULE_V01",
+            "file_name": "HL_Core_Budget_Module_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Primer diseño de módulo de presupuesto con ingresos y gastos en bloques simples.",
+            "uso_sugerido": "Escenas de presupuesto cuando no hace falta tanto detalle visual.",
+            "notas": "Versión legacy; usar v02 como preferida si hay dudas."
+        },
+        {
+            "asset_id": "BUDGET_MODULE_V02",
+            "file_name": "HL_Core_Budget_Module_v02",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Módulo de presupuesto refinado con separación más clara de ingresos, gastos y pago del préstamo.",
+            "uso_sugerido": "Baseline de capacidad de pago y reality check de presupuesto.",
+            "notas": "Versión recomendada."
+        },
+        {
+            "asset_id": "ICON_CARDBLACK_FRONT",
+            "file_name": "HL_Core_Icon_CardBlack_Front_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Tarjeta de crédito negra minimalista vista de frente.",
+            "uso_sugerido": "Icono genérico de tarjeta en HUDs, timelines o dials.",
+            "notas": ""
+        },
+        {
+            "asset_id": "ICON_CARDBLACK_TILT",
+            "file_name": "HL_Core_Icon_CardBlack_Tilt_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Tarjeta negra inclinada con chip visible.",
+            "uso_sugerido": "Hero shots de tarjeta o cuando queremos más dinamismo.",
+            "notas": ""
+        },
+        {
+            "asset_id": "ICON_CAR_LOAN",
+            "file_name": "HL_Core_Icon_CarLoan_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Icono/miniatura de coche neutro para auto loan.",
+            "uso_sugerido": "Cualquier referencia a auto loans o coche de ejemplo.",
+            "notas": ""
+        },
+        {
+            "asset_id": "ICON_HOME",
+            "file_name": "HL_Core_Icon_Home_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Icono minimalista de casa holográfica.",
+            "uso_sugerido": "Metáforas de hipoteca, vivienda o objetivos de vida.",
+            "notas": ""
+        },
+        {
+            "asset_id": "MONEY_WEALTHBLOCK_GOLD",
+            "file_name": "HL_Core_Money_WealthBlock_Gold_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_TABLE",
+            "descripcion_visual": "Bloque de oro macizo con dinero protegido por un escudo de cristal.",
+            "uso_sugerido": "Visualizar ahorro neto de intereses o dinero que se queda en el bolsillo.",
+            "notas": "Emparejar con Before/After cuando hablamos de delta en dinero."
+        },
+        {
+            "asset_id": "AVATAR_LABTECH",
+            "file_name": "HL_Core_Avatar_LabTech_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Avatar técnico de laboratorio en estilo wireframe teal.",
+            "uso_sugerido": "Host genérico del lab: explicaciones técnicas y transiciones.",
+            "notas": ""
+        },
+        {
+            "asset_id": "AVATAR_MENTOR_GOLD",
+            "file_name": "HL_Core_Avatar_Mentor_Gold_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Avatar dorado que representa al mentor con historial perfecto.",
+            "uso_sugerido": "Bloque de Borrowing History / usuario autorizado.",
+            "notas": ""
+        },
+        {
+            "asset_id": "AVATAR_PARENT",
+            "file_name": "HL_Core_Avatar_Parent_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Avatar neutro de padre/madre sin tarjeta.",
+            "uso_sugerido": "Historias de familia o ejemplos de contexto sin props.",
+            "notas": ""
+        },
+        {
+            "asset_id": "AVATAR_PARENT_WITH_CARD",
+            "file_name": "HL_Core_Avatar_Parent_WithCard_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Avatar de padre/madre sosteniendo una tarjeta de crédito.",
+            "uso_sugerido": "Escenas donde el familiar entrega acceso o comparte línea.",
+            "notas": ""
+        },
+        {
+            "asset_id": "AVATAR_USER_BLUE",
+            "file_name": "HL_Core_Avatar_User_Blue_v01",
+            "tipo_asset": "MV_INSERT",
+            "mv_context_default": "LAB_FLOATING",
+            "descripcion_visual": "Avatar azul que representa al usuario/espectador.",
+            "uso_sugerido": "Persona principal de todos los protocolos; usar como 'tú' del sistema.",
+            "notas": ""
+        }
+    ]
+}

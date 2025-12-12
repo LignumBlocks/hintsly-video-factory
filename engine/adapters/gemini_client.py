@@ -3,6 +3,7 @@ import requests
 from adapters.logger import Logger
 from domain.errors import ImageGenerationError, PromptError
 from infra.config import Config
+from typing import Optional
 
 logger = Logger()
 
@@ -16,18 +17,19 @@ class KieNanoBananaClient:
         self.api_key = Config.KIE_API_KEY
         self.base_url = Config.KIE_API_BASE
         self.model = Config.KIE_NANO_BANANA_MODEL
-        self.poll_interval = 3  # seconds
-        self.max_polls = 60  # max ~3 minutes
+        self.poll_interval = 5  # seconds (increased to reduce spam)
+        self.max_polls = 120  # max ~10 minutes (Pro model is slower)
         
         if not self.api_key:
             logger.warning("KIE_API_KEY not found in environment variables.")
 
-    def generate(self, prompt: str) -> str:
+    def generate(self, prompt: str, ref_image_url: Optional[str] = None) -> str:
         """
         Generate an image using Kie.ai Nano Banana API.
         
         Args:
             prompt: Text prompt for image generation
+            ref_image_url: Optional URL of an image to use as reference/anchor
             
         Returns:
             URL of the generated image
@@ -40,7 +42,7 @@ class KieNanoBananaClient:
 
         try:
             # Step 1: Create task
-            task_id = self._create_task(prompt)
+            task_id = self._create_task(prompt, ref_image_url)
             
             # Step 2: Poll until completion
             image_url = self._poll_until_complete(task_id)
@@ -54,7 +56,7 @@ class KieNanoBananaClient:
             logger.error(f"Kie.ai Nano Banana generation failed: {e}")
             raise ImageGenerationError(f"Image generation failed: {e}")
 
-    def _create_task(self, prompt: str) -> str:
+    def _create_task(self, prompt: str, ref_image_url: Optional[str] = None) -> str:
         """Submit image generation task to Kie.ai API."""
         url = f"{self.base_url}/api/v1/jobs/createTask"
         
@@ -63,13 +65,27 @@ class KieNanoBananaClient:
             "Authorization": f"Bearer {self.api_key}"
         }
         
+        input_data = {
+            "prompt": prompt,
+            "output_format": "png",
+            "aspect_ratio": "16:9",
+            "resolution": "1K"
+        }
+        
+        logger.info(f"Using prompt: {prompt}")
+        
+        if ref_image_url:
+             # Confirmed by docs: image_input is a list of URLs
+             input_data["image_input"] = [ref_image_url]
+             # Note: 'strength' is not explicitly mentioned in the new guide for this endpoint, 
+             # but often used in SD. We will omit it to be strictly compliant with the guide 
+             # or keep it if we suspect it works hiddenly. The user guide showed a clean example.
+             # Let's trust the guide: only image_input.
+             logger.info(f"Using reference image: {ref_image_url} (image_input)")
+        
         payload = {
             "model": self.model,
-            "input": {
-                "prompt": prompt,
-                "output_format": "png",
-                "image_size": "1:1"
-            }
+            "input": input_data
         }
         
         logger.info(f"Submitting Kie.ai task with prompt: {prompt[:50]}...")

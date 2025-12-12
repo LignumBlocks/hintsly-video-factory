@@ -8,7 +8,8 @@ from infra.paths import ASSETS_DIR
 
 class FSAdapter:
     def _get_shot_dir(self, shot: Shot) -> Path:
-        return ASSETS_DIR / "videos" / shot.video_id / f"block_{shot.bloque}" / f"shot_{shot.plano}"
+        """Construct canonical path for shot assets: assets/videos/{video_id}/block_{block_id}/shot_{shot_id}/"""
+        return ASSETS_DIR / "videos" / shot.video_id / f"block_{shot.block_id}" / f"shot_{shot.shot_id}"
 
     def save_image(self, shot: Shot, img_data: str) -> str:
         shot_dir = self._get_shot_dir(shot)
@@ -104,3 +105,29 @@ class FSAdapter:
             json.dump(data, f, indent=2, default=str)
             
         return str(file_path)
+
+    def get_public_url(self, local_path: str) -> str:
+        """
+        Converts a local file path to a public URL accessible by Kie.ai.
+        Uses ASSETS_DIR relative path.
+        """
+        # Ensure path is relative to ASSETS_DIR
+        try:
+             path_obj = Path(local_path)
+             # If path is absolute, make it relative to the workspace root or ASSETS_DIR parent
+             # Assuming ASSETS_DIR is absolute path to 'assets' folder
+             
+             # Calculate relative path from ASSETS_DIR
+             rel_path = path_obj.relative_to(ASSETS_DIR)
+             
+             # Build URL
+             # PUBLIC_BASE_URL should look like "https://domain.com"
+             # Route is mapped to "/assets" in main.py
+             from infra.config import Config
+             base = Config.PUBLIC_BASE_URL.rstrip("/")
+             url = f"{base}/assets/{rel_path}"
+             return url
+             
+        except Exception as e:
+            print(f"Error converting path to public URL: {e}")
+            return local_path
