@@ -139,7 +139,12 @@ class KieVeoClient:
         for attempt in range(self.max_polls):
             logger.info(f"Polling Kie.ai Veo task (attempt {attempt + 1}/{self.max_polls})...")
             
-            response = requests.get(url, headers=headers, params={"taskId": task_id}, timeout=30)
+            try:
+                response = requests.get(url, headers=headers, params={"taskId": task_id}, timeout=30)
+            except requests.RequestException as e:
+                logger.warning(f"Network error during poll: {e}. Retrying in {self.poll_interval}s...")
+                time.sleep(self.poll_interval)
+                continue
             
             if response.status_code != 200:
                 logger.warning(f"Poll returned {response.status_code}: {response.text}")

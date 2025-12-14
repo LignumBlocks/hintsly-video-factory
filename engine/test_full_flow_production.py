@@ -18,7 +18,19 @@ from infra.config import Config
 # Configure logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-class TestFullFlowGeneration(unittest.TestCase):
+class TestFullFlowProduction(unittest.TestCase):
+    """
+    Production-ready integration test for the full video generation pipeline.
+    
+    This test does NOT use Ngrok or any monkey patching. It relies on:
+    1. PUBLIC_BASE_URL being correctly configured in .env
+    2. The assets directory being publicly accessible via HTTP/HTTPS
+    3. The veo_client._get_public_image_url() method working as designed
+    
+    Use this test in staging/production environments where files are served
+    by a real web server (Nginx, Apache, etc.)
+    """
+    
     def setUp(self):
         # 1. Real FS Adapter
         self.fs_adapter = FSAdapter()
@@ -35,16 +47,15 @@ class TestFullFlowGeneration(unittest.TestCase):
         # 5. Real Assets Repository
         self.assets_repo = AssetsRepository(Config.ASSETS_CATALOG_PATH, Config.ASSETS_FILES_DIR)
         
-        self.logger = logging.getLogger("full_flow_test")
+        self.logger = logging.getLogger("full_flow_production_test")
 
     def test_full_pipeline_generation(self):
-        print("\n🚀 Starting FULL FLOW Generation Test (Image + Video) with VACA asset...")
+        print("\n🚀 Starting PRODUCTION Full Flow Test (Image + Video)...")
+        print(f"📡 PUBLIC_BASE_URL: {Config.PUBLIC_BASE_URL}")
         
         # User Provided JSON Data
-        # Using "vaca" asset since we verified it works for image generation
-        # And requesting IMAGE_1F_VIDEO to trigger video generation
         shot_data = {
-            "video_id": "csj_B01_P02",
+            "video_id": "prod_test_B01_P02",
             "block_id": "B01_HOOK",
             "shot_id": "P02",
             "core_flag": True,
@@ -76,29 +87,12 @@ class TestFullFlowGeneration(unittest.TestCase):
             self.assets_repo
         )
         
-        # --- REMOTE ACCESS FOR LOCAL TESTING (NGROK) ---
-        # We use the Ngrok public URL to expose our local files to the remote Kie.ai API.
-        # Python HTTP server is running at project root (port 8000).
-        ngrok_url = "https://ea40c095f84d.ngrok-free.app"
-        
-        print(f"🔧 Patching video_client to use Ngrok: {ngrok_url} ...")
-        
-        def local_to_public(path):
-            # Convert /home/roiky/.../assets/... -> assets/...
-            try:
-                path_str = str(path)
-                if "/assets/" in path_str:
-                    rel_path = path_str.split("/assets/", 1)[1]
-                    return f"{ngrok_url}/assets/{rel_path}"
-                return path 
-            except Exception as e:
-                print(f"URL conversion error: {e}")
-                return path
-
-        self.video_client._get_public_image_url = local_to_public
+        # --- NO MONKEY PATCHING ---
+        # The video_client will use its native _get_public_image_url() method
+        # which constructs URLs based on Config.PUBLIC_BASE_URL
         
         # Execute
-        print("▶️ Executing ProcessShot with Real Image AND Real Video APIs...")
+        print("▶️ Executing ProcessShot with Real APIs (Production Mode)...")
         result = usecase.execute(shot)
         
         # Verification
@@ -112,21 +106,23 @@ class TestFullFlowGeneration(unittest.TestCase):
         print(f"Video Path: {result.video_path}")
         
         # Assertions
-        self.assertEqual(result.estado, ShotEstado.COMPLETADO)
-        self.assertIsNotNone(result.image_path)
-        self.assertIsNotNone(result.video_path)
+        self.assertEqual(result.estado, ShotEstado.COMPLETADO, 
+                        f"Expected COMPLETADO but got {result.estado}. Error: {result.error_message}")
+        self.assertIsNotNone(result.image_path, "Image path should not be None")
+        self.assertIsNotNone(result.video_path, "Video path should not be None")
         
         # Verify files exist
         image_file = Path(result.image_path)
         video_file = Path(result.video_path)
         
-        self.assertTrue(image_file.exists(), "Image file should exist")
+        self.assertTrue(image_file.exists(), f"Image file should exist at {result.image_path}")
         self.assertGreater(image_file.stat().st_size, 0, "Image file should not be empty")
         
-        self.assertTrue(video_file.exists(), "Video file should exist")
+        self.assertTrue(video_file.exists(), f"Video file should exist at {result.video_path}")
         self.assertGreater(video_file.stat().st_size, 0, "Video file should not be empty")
         
-        print("✅ Full Flow Generation Test Passed!")
+        print("✅ Production Full Flow Test Passed!")
+        print(f"📁 Output directory: {image_file.parent}")
 
 if __name__ == '__main__':
     unittest.main()

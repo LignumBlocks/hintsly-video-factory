@@ -44,24 +44,25 @@ class TestFullFlowGeneration(unittest.TestCase):
         # Using "vaca" asset since we verified it works for image generation
         # And requesting IMAGE_1F_VIDEO to trigger video generation
         shot_data = {
-            "video_id": "csj_B01_P02",
-            "block_id": "B01_HOOK",
-            "shot_id": "P02",
-            "core_flag": True,
-            "mv_context": "LAB_TABLE",
-            "asset_id": "LAB_CREDITSYSTEM_TABLE",
-            "asset_mode": "IMAGE_1F_VIDEO",
-            "camera_move": "zoom_in",
-            "duracion_seg": 8.0,
-            "texto_voz_resumido": "Person A buys a twenty-five-thousand-dollar car with a 650 score. Person B buys the exact same car with a 710 score. Same car. Same job. Same income.",
-            "descripcion_visual": "Isometric view of the central credit system table in the Financial War Room. On the smoked-glass surface there are two identical matte black data modules labeled visually as Person A and Person B (no readable text), each with a single teal cable running towards a vertical risk structure in the background.",
-            "funcion_narrativa": "Introduce the cold system that sees two almost identical people as two different routes only because of their score band.",
-            "prompt_imagen": "Isometric 3D view of a dark institutional financial command table (LAB_CREDITSYSTEM_TABLE). Two identical matte black data modules represent Person A and Person B, each connected by a single glowing teal fiber-optic cable toward a vertical stack of risk-band blocks. Deep navy background, subtle blueprint grid, photorealistic, no on-screen text.",
-            "prompt_video": "Cinematic slow Zoom In towards the center of the credit system table, moving closer to the two data modules and their teal cables while small status lights and data pulses move gently inside the system. Camera is stable and smooth, no frantic motion.",
-            "image_path": "",
-            "video_path": "",
-            "estado": "PENDIENTE",
-            "error_message": None
+                "video_id": "csj_B01_P03",
+                "block_id": "B01_HOOK",
+                "shot_id": "P03",
+                "core_flag": True,
+                "mv_context": "LAB_FLOATING",
+                "asset_id": "CREDIT_STAIRCASE_SIDE",
+                "asset_mode": "IMAGE_1F_VIDEO",
+                "camera_move": "Tilt Up / Tilt Down",
+                "duracion_seg": 8.0,
+                "texto_voz_resumido": "Over five years, Person A pays about seven thousand dollars in interest. Person B pays under four thousand seven hundred. That’s roughly two thousand three hundred dollars gone — just because, the week the bank ran the numbers, they landed in a different score band.",
+                "descripcion_visual": "Isometric glass staircase representing score bands seen from a side angle. Lower steps glow soft amber, higher steps glow soft green. On one amber step, a small glass panel shows a higher monthly payment and red total interest; on a higher green step, another panel shows a slightly lower payment and green total interest.",
+                "funcion_narrativa": "Visualize that the system works in steps: one small score change can move you to a different price band with a totally different cost.",
+                "prompt_imagen": "Isometric 3D glass staircase in a dark financial lab, lower steps glowing soft amber and higher steps glowing soft green. On an amber step, a glass panel shows a higher payment and a red-tinted total interest. On a green step above, another panel shows a lower payment and a green-tinted total interest. Deep navy background, subtle blueprint grid, photorealistic, clean composition.",
+                "prompt_video": "Slow Tilt Up camera move starting from the lower amber steps, then rising to reveal the higher green steps and the two contrasting payment/interest panels. Teal data lines pulse gently along the staircase while everything stays readable.",
+                "image_path": "",
+                "video_path": "",
+                "estado": "PENDIENTE",
+                "error_message": None
+
         }
         
         # Convert to Entity
