@@ -43,7 +43,11 @@ class ProcessShot:
                 
                 # Get public URL for reference
                 ref_image_url = self.fs.get_public_url(str(resolved_path))
+                self.logger.info(f"Using reference image: {ref_image_url} (image_input)")
                 self.logger.info(f"Asset resolved. Ref URL: {ref_image_url}")
+            else:
+                self.logger.info("No reference image provided. Generating from prompt only.")
+                self.logger.warning(f"No asset_id provided. Image will be generated without reference asset.")
 
             
             # 1. Generación de prompts (if not already provided)
