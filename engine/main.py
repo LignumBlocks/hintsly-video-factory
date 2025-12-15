@@ -113,6 +113,14 @@ def process_shot(shot: Shot):
         # Check if processing was successful
         if result.estado == ShotEstado.COMPLETADO:
             logger.info(f"✅ Shot processed successfully: {result.shot_id}")
+            
+            # MODIFY RESPONSE: Replace local paths with public URLs for client convenience
+            # This does not affect the metadata saved on disk (which keeps local paths)
+            if result.image_path:
+                result.image_path = fs_adapter.get_public_url(result.image_path)
+            if result.video_path:
+                result.video_path = fs_adapter.get_public_url(result.video_path)
+            
             return ShotProcessResponse(
                 success=True,
                 shot=result,
@@ -159,6 +167,13 @@ def regenerate_shot(shot: Shot):
         
         if result.estado == ShotEstado.COMPLETADO:
             logger.info(f"✅ Shot regenerated successfully: {result.shot_id}")
+            
+            # MODIFY RESPONSE: Replace local paths with public URLs
+            if result.image_path:
+                result.image_path = fs_adapter.get_public_url(result.image_path)
+            if result.video_path:
+                result.video_path = fs_adapter.get_public_url(result.video_path)
+                
             return ShotProcessResponse(
                 success=True,
                 shot=result,
