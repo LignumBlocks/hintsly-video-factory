@@ -39,7 +39,7 @@ class Shot(BaseModel):
     core_flag: bool = False
     mv_context: str
     asset_id: Optional[str] = None
-    asset_mode: AssetMode
+    asset_mode: AssetMode = AssetMode.IMAGE_1F_VIDEO  # Default to standard video
     
     # Asset Resolution Metadata (New)
     asset_resolved_file_name: Optional[str] = None
@@ -47,13 +47,13 @@ class Shot(BaseModel):
     asset_mv_context_mismatch: bool = False
     
     # Camera & timing
-    camera_move: str
-    duracion_seg: float
+    camera_move: Optional[str] = "Static"
+    duracion_seg: float = 8.0  # Default duration
     
     # Semantic fields
-    texto_voz_resumido: str
+    texto_voz_resumido: Optional[str] = ""
     descripcion_visual: str
-    funcion_narrativa: str
+    funcion_narrativa: Optional[str] = ""
     
     # Generated fields (populated by the pipeline)
     prompt_imagen: Optional[str] = None
