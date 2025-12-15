@@ -106,6 +106,7 @@ def process_shot(shot: Shot):
     """
     try:
         logger.info(f"🎬 Processing shot: {shot.video_id}/{shot.block_id}/{shot.shot_id}")
+        logger.info(f"🔍 DEBUG: Received asset_id: '{shot.asset_id}' (Type: {type(shot.asset_id)})")
         
         # Execute the use case
         result = process_shot_usecase.execute(shot)
