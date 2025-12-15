@@ -31,6 +31,10 @@ class FSAdapter:
                 data = base64.b64decode(encoded)
                 with open(file_path, "wb") as f:
                     f.write(data)
+                
+                # Ensure world-readable permissions for web server access
+                os.chmod(file_path, 0o644)
+                
                 return str(file_path)
             except Exception as e:
                 print(f"Error saving base64 image: {e}")
@@ -44,6 +48,7 @@ class FSAdapter:
             file_path = shot_dir / "image.png"
             with open(file_path, "w") as f:
                 f.write(f"Image data from {img_data}")
+            os.chmod(file_path, 0o644)
             
         return str(file_path)
 
@@ -59,6 +64,10 @@ class FSAdapter:
                 data = base64.b64decode(encoded)
                 with open(file_path, "wb") as f:
                     f.write(data)
+                
+                # Ensure world-readable permissions
+                os.chmod(file_path, 0o644)
+                
                 print(f"Video saved from base64: {len(data)} bytes")
                 return str(file_path)
             except Exception as e:
@@ -126,6 +135,7 @@ class FSAdapter:
              from infra.config import Config
              base = Config.PUBLIC_BASE_URL.rstrip("/")
              url = f"{base}/assets/{rel_path}"
+             print(f"DEBUG: Public URL generated: {url}")
              return url
              
         except Exception as e:
