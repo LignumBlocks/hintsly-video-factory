@@ -73,8 +73,13 @@ class KieVeoClient:
             "Authorization": f"Bearer {self.api_key}"
         }
         
-        # Convert local image path to public URL
-        image_url = self._get_public_image_url(image_path)
+        # UPLOAD TO TMPFILES.ORG TO BYPASS FIREWALL ISSUES
+        try:
+            image_url = self._upload_to_tmpfiles(image_path)
+            logger.info(f"Uploaded temp image for Veo: {image_url}")
+        except Exception as e:
+            logger.error(f"Failed to upload to temp host, falling back to local public URL: {e}")
+            image_url = self._get_public_image_url(image_path)
         
         payload = {
             "prompt": prompt,
@@ -107,6 +112,30 @@ class KieVeoClient:
         
         logger.info(f"Kie.ai Veo task created: {task_id}")
         return task_id
+
+    def _upload_to_tmpfiles(self, image_path: str) -> str:
+        """Upload image to tmpfiles.org and return DIRECT download URL."""
+        upload_url = "https://tmpfiles.org/api/v1/upload"
+        
+        with open(image_path, 'rb') as f:
+            files = {'file': f}
+            response = requests.post(upload_url, files=files, timeout=60)
+            
+        if response.status_code != 200:
+            raise Exception(f"Tmpfiles upload failed: {response.text}")
+            
+        data = response.json()
+        if data.get("status") != "success":
+             raise Exception(f"Tmpfiles error: {data}")
+             
+        # URL returned is like: https://tmpfiles.org/12345/image.png
+        # We need direct link: https://tmpfiles.org/dl/12345/image.png
+        page_url = data.get("data", {}).get("url")
+        if not page_url:
+            raise Exception("No URL in tmpfiles response")
+            
+        # Convert to direct link
+        return page_url.replace("tmpfiles.org/", "tmpfiles.org/dl/")
     
     def _get_public_image_url(self, image_path: str) -> str:
         """Convert local image path to public URL."""
