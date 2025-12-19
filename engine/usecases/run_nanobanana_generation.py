@@ -101,11 +101,50 @@ class RunNanoBananaGeneration:
 
                 results[task.task_id] = local_files
                 
+                # Ticket IMG-08: Approval Gate
+                # Set status to PENDING_REVIEW if approval gate is active (or always, per ticket "Enforce Status")
+                # Ticket says: "After generating images, explicitly set/persist status='PENDING_REVIEW'"
+                task.approval.status = "PENDING_REVIEW"
+                self.repository.save(request)
+                
             except Exception as e:
                 self.logger.error(f"Task {task.task_id} failed: {e}")
                 results[task.task_id] = {"error": str(e)}
 
         return results
+    
+    def check_project_approval(self, project_id: str) -> bool:
+        """
+        Ticket IMG-08: Approval Gate Logic.
+        Returns True if the project is allowed to proceed (e.g. to video generation).
+        Returns False if there are unapproved tasks when the gate is active.
+        """
+        request: NanoBananaRequest = self.repository.get(project_id)
+        if not request:
+            return False # Fail safe
+            
+        gate_active = request.project.production_rules.approval_gate != "none" # Assuming it might be a string rule description or bool? 
+        # Checking models.py to see type of approval_gate. It seems to be a description string in the JSON example.
+        # "approval_gate": "REQUIRED: All image outputs must be approved..."
+        # If we treat any non-empty / non-false string as active.
+        
+        # Let's check models.py type.
+        # NanoBananaProductionRules.approval_gate is str. 
+        # If it says "REQUIRED...", we treat it as True. 
+        # If it was "false" or empty, maybe False. 
+        # Let's assume strict check: if not empty string -> Gate Active.
+        
+        if not gate_active:
+             return True
+             
+        pending_tasks = [t.task_id for t in request.image_tasks if t.approval.status != "APPROVED"]
+        
+        if pending_tasks:
+            self.logger.info(f"Project {project_id} blocked by approval gate. Pending tasks: {len(pending_tasks)}")
+            return False
+            
+        self.logger.info(f"Project {project_id} approved to proceed.")
+        return True
 
     def _resolve_refs_to_urls(self, refs: List[str]) -> List[str]:
         from infra.paths import ASSETS_DIR
