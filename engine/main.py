@@ -11,10 +11,13 @@ from usecases.process_shot import ProcessShot
 from usecases.regenerate_shot import RegenerateShot
 from usecases.utils_prompt import PromptService
 from usecases.ingest_nanobanana import IngestNanoBanana
+from usecases.run_nanobanana_generation import RunNanoBananaGeneration
+from usecases.nanobanana_prompt_service import NanoBananaPromptService
 from domain.nanobanana_models import NanoBananaRequest
 from adapters.fs_adapter import FSAdapter
 from adapters.gemini_client import GeminiImageClient
 from adapters.veo_client import VeoClient
+from adapters.nanobanana_client import NanoBananaClient
 from adapters.logger import Logger
 from infra.paths import ASSETS_DIR
 from adapters.assets_repository import AssetsRepository
@@ -48,8 +51,10 @@ gemini_client = GeminiImageClient()
 veo_client = VeoClient()
 
 logger = Logger()
-assets_repository = AssetsRepository(Config.ASSETS_CATALOG_PATH, Config.ASSETS_FILES_DIR)
+assets_repository = AssetsRepository(files_dir=Config.ASSETS_FILES_DIR)
 nanobanana_repository = NanoBananaRepository()
+nanobanana_client = NanoBananaClient()
+prompt_service = NanoBananaPromptService()
 
 # Instantiate use cases
 process_shot_usecase = ProcessShot(
@@ -61,7 +66,9 @@ process_shot_usecase = ProcessShot(
     assets_repository
 )
 regenerate_shot_usecase = RegenerateShot(process_shot_usecase)
-ingest_nanobanana_usecase = IngestNanoBanana(nanobanana_repository, logger)
+ingest_nanobanana_usecase = IngestNanoBanana(nanobanana_repository, assets_repository, logger)
+run_nanobanana_generation_usecase = RunNanoBananaGeneration(nanobanana_repository, prompt_service, nanobanana_client, assets_repository, logger)
+
 
 
 # Response Models

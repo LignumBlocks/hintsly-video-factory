@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, ValidationInfo
 from typing import List, Optional, Dict, Any
 
 class NanoBananaFileInfo(BaseModel):
@@ -8,7 +8,7 @@ class NanoBananaFileInfo(BaseModel):
 
 class NanoBananaOutputConfig(BaseModel):
     aspect_ratio: str
-    resolution_px: List[int]
+    resolution_px: str
     image_format: str
 
 class NanoBananaProductionRules(BaseModel):
@@ -46,3 +46,18 @@ class NanoBananaRequest(BaseModel):
     asset_library: Dict[str, Dict[str, str]]
     style_presets: Optional[NanoBananaStylePresets] = None
     image_tasks: List[NanoBananaImageTask]
+
+    @field_validator('image_tasks')
+    @classmethod
+    def validate_unique_task_ids(cls, v: List[NanoBananaImageTask]) -> List[NanoBananaImageTask]:
+        seen_ids = set()
+        duplicates = []
+        for task in v:
+            if task.task_id in seen_ids:
+                duplicates.append(task.task_id)
+            seen_ids.add(task.task_id)
+        
+        if duplicates:
+            raise ValueError(f"Duplicate task_ids found: {duplicates}")
+        return v
+

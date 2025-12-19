@@ -13,12 +13,12 @@
     ],
     "output": {
       "aspect_ratio": "16:9",
-      "resolution_px": [3840, 2160],
+      "resolution_px": "1K",
       "image_format": "png"
     },
     "production_rules": {
       "nanobanana_max_reference_images": 5,
-      "nanobanana_variants_per_image_task": 2,
+      "nanobanana_variants_per_image_task": 1,
       "approval_gate": "REQUIRED: All image outputs must be approved before video ingestion."
     }
   },

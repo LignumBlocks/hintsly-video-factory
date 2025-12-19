@@ -9,8 +9,8 @@ class AssetsRepository:
     """
     Repository to access the Assets Catalog (JSON) and resolve physical files.
     """
-    def __init__(self, catalog_path: str, files_dir: str):
-        self.catalog_path = Path(catalog_path)
+    def __init__(self, files_dir: str, catalog_path: Optional[str] = None):
+        self.catalog_path = Path(catalog_path) if catalog_path else None
         self.files_dir = Path(files_dir)
         self.logger = Logger()
         self._assets_cache: Dict[str, Asset] = {}
@@ -22,8 +22,8 @@ class AssetsRepository:
             return
 
         try:
-            if not self.catalog_path.exists():
-                self.logger.warning(f"Assets catalog not found at {self.catalog_path}")
+            if not self.catalog_path or not self.catalog_path.exists():
+                self.logger.debug(f"Assets catalog not found or not provided: {self.catalog_path}")
                 return
 
             with open(self.catalog_path, 'r', encoding='utf-8') as f:
@@ -46,11 +46,30 @@ class AssetsRepository:
             self.logger.error(f"Failed to load assets catalog: {e}")
 
     def get_asset(self, asset_id: str) -> Optional[Asset]:
-        """Retrieves an asset by its ID."""
+        """Retrieves an asset by its ID. Fallbacks to file existence check."""
         if not self._loaded:
             self.load_catalog()
         
-        return self._assets_cache.get(asset_id)
+        # 1. Try catalog cache
+        asset = self._assets_cache.get(asset_id)
+        if asset:
+            return asset
+
+        # 2. Fallback: Implicit asset from file existence
+        # User clarification: Asset ID == Filename (without extension)
+        path = self.resolve_file_path(asset_id)
+        if path:
+            # Create implicit asset
+            return Asset(
+                asset_id=asset_id,
+                file_name=asset_id,
+                tipo_asset="image",
+                mv_context_default="IMPLICIT",
+                descripcion_visual="Implicit asset found on disk",
+                uso_sugerido="reference"
+            )
+        
+        return None
 
     def resolve_file_path(self, file_name: str) -> Optional[Path]:
         """

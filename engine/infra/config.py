@@ -16,7 +16,7 @@ class Config:
     
     # Asset Configuration
     # Default to the known location in context folder for catalog, and assets/catalog_files for images
-    ASSETS_CATALOG_PATH = os.getenv("ASSETS_CATALOG_PATH", "/home/roiky/Espacio/hintsly-video-factory/assets/catalog_files/assets.json")
+
     ASSETS_FILES_DIR = os.getenv("ASSETS_FILES_DIR", "/home/roiky/Espacio/hintsly-video-factory/assets/catalog_files")
     
     # Google API settings (legacy/fallback)
