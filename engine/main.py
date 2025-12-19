@@ -233,3 +233,32 @@ def ingest_nanobanana(request: NanoBananaRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error ingesting project: {str(e)}"
         )
+
+class GenerateRequest(BaseModel):
+    project_id: str
+    dry_run: bool = False
+
+class GenerateResponse(BaseModel):
+    success: bool
+    results: dict
+    message: str
+
+@app.post("/nanobanana/generate", response_model=GenerateResponse)
+def generate_nanobanana(req: GenerateRequest):
+    """
+    Trigger image generation for all pending tasks in a project.
+    """
+    try:
+        results = run_nanobanana_generation_usecase.execute(req.project_id, dry_run=req.dry_run)
+        return GenerateResponse(
+            success=True,
+            results=results,
+            message=f"Generation completed for project {req.project_id}"
+        )
+    except Exception as e:
+        logger.error(f"Error in NanoBanana generation: {e}")
+        logger.error(traceback.format_exc())
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error in generation: {str(e)}"
+        )

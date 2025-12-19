@@ -23,6 +23,7 @@ class RunNanoBananaGeneration:
         self.public_base_url = Config.PUBLIC_BASE_URL
 
     def execute(self, project_id: str, dry_run: bool = False):
+        from infra.paths import ASSETS_DIR
         request: NanoBananaRequest = self.repository.get(project_id)
         if not request:
             raise ValueError(f"Project {project_id} not found in repository.")
@@ -33,10 +34,6 @@ class RunNanoBananaGeneration:
         results = {}
 
         for task in tasks:
-            if task.approval.status != "PENDING_REVIEW": # Only process pending? Or maybe all? Ticket doesn't specify skipping.
-                # Assuming force processing or processing all for now unless specified.
-                pass
-            
             try:
                 # 1. Construct Prompts
                 prompt = self.prompt_service.construct_prompt(request.style_presets, task)
@@ -65,11 +62,8 @@ class RunNanoBananaGeneration:
                 local_files = []
                 self.logger.info(f"Generated {len(generated_urls)} images. Downloading...")
                 
-                # Setup output dir: outputs/{project_id}/{block_id}/{shot_id}/
-                # Assuming simple structure based on ticket description or generic outputs/project_id first.
-                # Implementation plan said: outputs/{project_id}/{block_id}/{shot_id}/{task_id}_v{i}.png
-                
-                base_output_dir = os.path.join("outputs", project_id, task.block_id, task.shot_id)
+                # Set output dir: assets/videos/{project_id}/{task_id}/{block_id}/{shot_id}
+                base_output_dir = os.path.join(str(ASSETS_DIR), "videos", project_id, task.task_id, task.block_id, task.shot_id)
                 os.makedirs(base_output_dir, exist_ok=True)
                 
                 import httpx
@@ -78,22 +72,23 @@ class RunNanoBananaGeneration:
 
                 for i, url in enumerate(generated_urls):
                     try:
+                        # Filename: img_{role}.{ext} (handling variants if needed)
+                        variant_suffix = f"_v{i+1}" if len(generated_urls) > 1 else ""
+                        filename = f"img_{task.role}{variant_suffix}.png" 
+                        filepath = os.path.join(base_output_dir, filename)
+
                         if dry_run:
                             self.logger.info(f"[DRY RUN] Would download {url}")
-                            local_files.append(f"{base_output_dir}/mock_{i}.png")
+                            local_files.append(filepath)
                             continue
                             
                         resp = httpx.get(url, timeout=30)
                         if resp.status_code == 200:
-                            # Filename: {task_id}_v{i+1}_{timestamp}.png
-                            filename = f"{task.task_id}_v{i+1}_{timestamp}.png"
-                            filepath = os.path.join(base_output_dir, filename)
-                            
                             with open(filepath, "wb") as f:
                                 f.write(resp.content)
                             
                             local_files.append(filepath)
-                            self.logger.info(f"Saved: {filepath}")
+                            self.logger.info(f"Saved locally: {filepath}")
                         else:
                             self.logger.error(f"Failed to download {url}: {resp.status_code}")
                     except Exception as download_err:
@@ -102,8 +97,6 @@ class RunNanoBananaGeneration:
                 results[task.task_id] = local_files
                 
                 # Ticket IMG-08: Approval Gate
-                # Set status to PENDING_REVIEW if approval gate is active (or always, per ticket "Enforce Status")
-                # Ticket says: "After generating images, explicitly set/persist status='PENDING_REVIEW'"
                 task.approval.status = "PENDING_REVIEW"
                 self.repository.save(request)
                 

@@ -14,9 +14,6 @@ class Config:
     # Public URL configuration (for serving assets)
     PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "https://engine.srv954959.hstgr.cloud")
     
-    # Asset Configuration
-    # Default to the known location in context folder for catalog, and assets/catalog_files for images
-
     ASSETS_FILES_DIR = os.getenv("ASSETS_FILES_DIR", "/home/roiky/Espacio/hintsly-video-factory/assets/catalog_files")
     
     # Google API settings (legacy/fallback)

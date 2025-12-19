@@ -2,6 +2,8 @@ import os
 import json
 import logging
 import sys
+from datetime import datetime
+from dotenv import load_dotenv
 from domain.nanobanana_models import NanoBananaRequest
 from adapters.nanobanana_repository import NanoBananaRepository
 from adapters.nanobanana_client import NanoBananaClient
@@ -75,27 +77,48 @@ def run_diagnostic():
     print(f"[*] Constructed Prompt: {final_p[:100]}...")
     print(f"[*] Constructed Negative: {final_n[:100]}...")
 
+    # Pre-compute project_id and task_id for use in execution and logging
+    project_id = request_model.project.project_id
+    task_id = task.task_id
+
     # 7. EXECUTE
-    print(f"\n>>> STARTING GENERATION (Real API Call) <<<")
+    print("\n>>> STARTING GENERATION (Real API Call) <<<")
     try:
-        results = use_case.execute(request_model.project.project_id)
+        results = use_case.execute(project_id, dry_run=False)
         
-        print(f"\n=== EXECUTION RESULTS ===")
-        if task.task_id in results:
-            output = results[task.task_id]
-            if isinstance(output, list):
-                print(f"[SUCCESS] {len(output)} image(s) generated.")
-                for path in output:
-                    print(f"  -> Path: {path}")
-                    if os.path.exists(path):
-                        print(f"     [FILE VERIFIED ON DISK]")
-            else:
-                print(f"[FAILURE] Error reported in result: {output}")
+        print("\n=== EXECUTION RESULTS ===")
+        total_images = sum(len(files) for files in results.values())
+        if total_images > 0:
+            print(f"[SUCCESS] {total_images} image(s) generated.")
+            for tid, files in results.items():
+                for f in files:
+                    print(f"  -> Path: {f}")
+                    if not f.startswith("http"):
+                        if os.path.exists(f):
+                            print("     [FILE VERIFIED ON DISK]")
+                        else:
+                            print("     [ERROR: FILE NOT FOUND ON DISK]")
         else:
-            print(f"[FAILURE] Task ID missing from results.")
+            print("[FAILURE] No images were generated.")
+
+        # Save JSON log
+        log_data = {
+            "timestamp": datetime.now().isoformat(),
+            "project_id": project_id,
+            "task_id": task_id,
+            "results": results
+        }
+        # Ensure the directory for the log file exists
+        log_dir = os.path.dirname("engine/diagnostic_log.json")
+        if log_dir and not os.path.exists(log_dir):
+            os.makedirs(log_dir)
             
+        with open("engine/diagnostic_log.json", "w") as f:
+            json.dump(log_data, f, indent=2)
+        print(f"\n[*] Diagnostic log saved to: engine/diagnostic_log.json")
+
     except Exception as e:
-        print(f"[CRITICAL ERROR] Execution failed: {e}")
+        print(f"\n[CRITICAL ERROR] Execution failed: {e}")
         import traceback
         traceback.print_exc()
 
