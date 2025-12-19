@@ -80,12 +80,17 @@ class NanoBananaClient:
             "Content-Type": "application/json"
         }
         
+        # Convert list resolution [W, H] to string "WxH" if needed
+        res_str = resolution
+        if isinstance(resolution, list):
+            res_str = "x".join(map(str, resolution))
+            
         input_payload = {
             "prompt": prompt,
-            "negative_prompt": negative_prompt, # Hoping this key is accepted
+            "negative_prompt": negative_prompt,
             "image_input": refs,
             "output_format": fmt,
-            "resolution": resolution.upper(),
+            "resolution": res_str.upper(),
             "num_outputs": num_outputs # Check if API accepts this to gen multiple variants per task. Docs didn't show it but it's common.
         }
         

@@ -30,11 +30,16 @@ class IngestNanoBanana:
         max_refs = data.project.production_rules.nanobanana_max_reference_images
         
         # Flatten asset_library to get a set of valid Asset IDs defined in the JSON
-        # Structure: category -> asset_key -> asset_id
+        # Structure: category -> (asset_key -> asset_id) OR (list of items)
         valid_json_ids = set()
-        for category in data.asset_library.values():
-            for asset_id in category.values():
-                valid_json_ids.add(asset_id)
+        for category_name, category_content in data.asset_library.items():
+            if isinstance(category_content, dict):
+                for asset_id in category_content.values():
+                    valid_json_ids.add(asset_id)
+            elif isinstance(category_content, list):
+                # Handle lists like "notes" - though usually they aren't IDs 
+                # but we'll be safe and skip or include them if they look like IDs.
+                pass 
 
         for task in data.image_tasks:
             # 1. Check Max Refs

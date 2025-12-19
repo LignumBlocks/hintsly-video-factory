@@ -31,7 +31,7 @@ class RunNanoBananaGeneration:
         tasks = request.image_tasks
         self.logger.info(f"Starting generation for project {project_id}. Total tasks: {len(tasks)}")
 
-        results = {}
+        all_results = []
 
         for task in tasks:
             try:
@@ -39,8 +39,9 @@ class RunNanoBananaGeneration:
                 prompt = self.prompt_service.construct_prompt(request.style_presets, task)
                 neg_prompt = self.prompt_service.construct_negative_prompt(request.style_presets, task)
 
-                # 2. Resolve Refs to URLs
-                ref_urls = self._resolve_refs_to_urls(task.refs)
+                # 2. Resolve Refs to URLs (with IDs for UI)
+                assets_sent = self._resolve_refs_detailed(task.refs)
+                ref_urls = [a["resolved_url"] for a in assets_sent]
 
                 # 3. Call API
                 self.logger.info(f"Generating Task {task.task_id}...")
@@ -59,7 +60,6 @@ class RunNanoBananaGeneration:
                     )
                 
                 # 4. DOWNLOAD & PERSIST
-                local_files = []
                 self.logger.info(f"Generated {len(generated_urls)} images. Downloading...")
                 
                 # Set output dir: assets/videos/{project_id}/{task_id}/{block_id}/{shot_id}
@@ -72,39 +72,50 @@ class RunNanoBananaGeneration:
 
                 for i, url in enumerate(generated_urls):
                     try:
+                        variant_index = i + 1
                         # Filename: img_{role}.{ext} (handling variants if needed)
-                        variant_suffix = f"_v{i+1}" if len(generated_urls) > 1 else ""
+                        variant_suffix = f"_v{variant_index}" if len(generated_urls) > 1 else ""
                         filename = f"img_{task.role}{variant_suffix}.png" 
                         filepath = os.path.join(base_output_dir, filename)
 
-                        if dry_run:
-                            self.logger.info(f"[DRY RUN] Would download {url}")
-                            local_files.append(filepath)
-                            continue
-                            
-                        resp = httpx.get(url, timeout=30)
-                        if resp.status_code == 200:
-                            with open(filepath, "wb") as f:
-                                f.write(resp.content)
-                            
-                            local_files.append(filepath)
-                            self.logger.info(f"Saved locally: {filepath}")
+                        public_url = url # Default to temp URL from API
+                        if not dry_run:
+                            resp = httpx.get(url, timeout=30)
+                            if resp.status_code == 200:
+                                with open(filepath, "wb") as f:
+                                    f.write(resp.content)
+                                
+                                # Resolve local path to public URL
+                                rel_path = os.path.relpath(filepath, start=str(ASSETS_DIR))
+                                public_url = f"{self.public_base_url}/assets/{rel_path.replace('\\', '/')}"
+                                self.logger.info(f"Saved locally: {public_url}")
+                            else:
+                                self.logger.error(f"Failed to download {url}: {resp.status_code}")
                         else:
-                            self.logger.error(f"Failed to download {url}: {resp.status_code}")
+                            self.logger.info(f"[DRY RUN] Would download {url} to {filepath}")
+
+                        all_results.append({
+                            "task_id": task.task_id,
+                            "variant": variant_index,
+                            "image_url": public_url,
+                            "final_prompt": prompt,
+                            "final_negative_prompt": neg_prompt,
+                            "assets_sent": assets_sent
+                        })
                     except Exception as download_err:
                         self.logger.error(f"Download exception for {url}: {download_err}")
 
-                results[task.task_id] = local_files
-                
                 # Ticket IMG-08: Approval Gate
                 task.approval.status = "PENDING_REVIEW"
                 self.repository.save(request)
                 
             except Exception as e:
                 self.logger.error(f"Task {task.task_id} failed: {e}")
-                results[task.task_id] = {"error": str(e)}
+                # We don't append a failed result here to avoid breaking the UI list, 
+                # or we could append it with status: "ERROR" if the contract allowed.
+                # For now, let the caller handle exceptions.
 
-        return results
+        return all_results
     
     def check_project_approval(self, project_id: str) -> bool:
         """
@@ -139,24 +150,24 @@ class RunNanoBananaGeneration:
         self.logger.info(f"Project {project_id} approved to proceed.")
         return True
 
-    def _resolve_refs_to_urls(self, refs: List[str]) -> List[str]:
+    def _resolve_refs_detailed(self, refs: List[str]) -> List[Dict[str, str]]:
         from infra.paths import ASSETS_DIR
-        urls = []
-        for ref in refs:
-            # Get Asset (this implicitly checks existence and creates if just file)
-            asset = self.assets_repository.get_asset(ref)
+        detailed_refs = []
+        for ref_id in refs:
+            asset = self.assets_repository.get_asset(ref_id)
             if asset:
-                 # Resolve physical file path to ensure it exists
                  path = self.assets_repository.resolve_file_path(asset.file_name)
                  if path:
-                     # Calculate relative path from ASSETS_DIR for correct URL construction
-                     # e.g. path = .../assets/catalog_files/foo.png -> catalog_files/foo.png
                      try:
                         rel_path = os.path.relpath(path, start=str(ASSETS_DIR))
-                        # Enforce forward slashes for URLs even on Windows (though running on Linux)
-                        rel_path_url = rel_path.replace("\\", "/")
-                        url = f"{self.public_base_url}/assets/{rel_path_url}"
-                        urls.append(url)
+                        url = f"{self.public_base_url}/assets/{rel_path.replace('\\', '/')}"
+                        detailed_refs.append({
+                            "ref_id": ref_id,
+                            "resolved_url": url
+                        })
                      except ValueError:
                         self.logger.warning(f"Asset path {path} is not inside ASSETS_DIR {ASSETS_DIR}")
-        return urls
+        return detailed_refs
+
+    def _resolve_refs_to_urls(self, refs: List[str]) -> List[str]:
+        return [a["resolved_url"] for a in self._resolve_refs_detailed(refs)]

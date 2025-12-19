@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ValidationError
-from typing import Optional
+from typing import Optional, List, Dict
 import traceback
 
 from domain.entities import Shot, ShotEstado
@@ -31,6 +31,8 @@ app = FastAPI(
     version="1.0.0"
 )
 
+from fastapi.exceptions import RequestValidationError
+
 # CORS middleware for n8n integration
 app.add_middleware(
     CORSMiddleware,
@@ -39,6 +41,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    logger.error(f"Validation Error: {exc.errors()}")
+    logger.error(f"Body: {await request.body()}")
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={"detail": exc.errors(), "body": str(await request.body())},
+    )
 
 # Mount static files to serve images publicly
 # This allows Kie.ai Veo to access images via URL
@@ -239,9 +250,10 @@ class GenerateRequest(BaseModel):
     dry_run: bool = False
 
 class GenerateResponse(BaseModel):
-    success: bool
-    results: dict
-    message: str
+    job_id: Optional[str] = None
+    status: str
+    results: List[Dict] = []
+    error: Optional[str] = None
 
 @app.post("/nanobanana/generate", response_model=GenerateResponse)
 def generate_nanobanana(req: GenerateRequest):
@@ -251,14 +263,38 @@ def generate_nanobanana(req: GenerateRequest):
     try:
         results = run_nanobanana_generation_usecase.execute(req.project_id, dry_run=req.dry_run)
         return GenerateResponse(
-            success=True,
-            results=results,
-            message=f"Generation completed for project {req.project_id}"
+            status="DONE",
+            results=results
         )
     except Exception as e:
         logger.error(f"Error in NanoBanana generation: {e}")
         logger.error(traceback.format_exc())
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error in generation: {str(e)}"
+        return GenerateResponse(
+            status="ERROR",
+            error=str(e)
+        )
+
+@app.post("/nanobanana/run-full", response_model=GenerateResponse)
+def run_full_nanobanana(request: NanoBananaRequest):
+    """
+    Ingest and run generation in one call for the UI Runner.
+    """
+    try:
+        # 1. Ingest
+        project_id = ingest_nanobanana_usecase.execute(request)
+        
+        # 2. Run
+        results = run_nanobanana_generation_usecase.execute(project_id)
+        
+        return GenerateResponse(
+            job_id=project_id,
+            status="DONE",
+            results=results
+        )
+    except Exception as e:
+        logger.error(f"Error in run-full: {e}")
+        logger.error(traceback.format_exc())
+        return GenerateResponse(
+            status="ERROR",
+            error=str(e)
         )
