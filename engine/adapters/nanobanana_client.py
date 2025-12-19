@@ -16,9 +16,9 @@ class NanoBananaClient:
         self.model = Config.KIE_NANO_BANANA_MODEL
         self.logger = Logger()
         
-        # Polling settings
         self.poll_interval = 5
         self.max_polls = 120 # ~10 minutes max wait
+        self.last_payload = None # Store the exact payload of the last createTask call
 
     def generate_image(self, 
                        prompt: str, 
@@ -93,6 +93,7 @@ class NanoBananaClient:
             "model": self.model,
             "input": input_payload
         }
+        self.last_payload = payload
         
         self.logger.info(f"Creating Task | Model: {self.model} | Refs: {len(refs)}")
         

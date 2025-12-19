@@ -1,7 +1,27 @@
 {
-  "timestamp": "2025-12-19T09:29:55.012455",
+  "timestamp": "2025-12-19T10:41:30.461085",
   "project_id": "csj_v1_refined",
   "task_id": "img__csj__B01__P01__start",
+  "role": "start",
+  "job_details": {
+    "constructed_prompt": "Hyper-realistic stop-motion claymation. Handmade matte polymer clay with visible fingerprints, micro-cracks, and tiny dust specks. Dark navy matte seamless studio. Single key light top-left 45\u00b0, crisp hard shadow[cite: 7]. 16:9, 4K. Tactile frame-stepping look, no glossy CGI[cite: 8]. Stop-motion photography. [MASTER_REF: Slot 1]. SPATIAL: Align subject volumes to the scale sheet in Slot 1. SUBJECT: Grey polymer clay sedan (Ref: Slot 3) at the base of a handmade 5-step clay staircase[cite: 9]. BG: Porthole CLOSED_LOCKED on navy wall (Ref: Slot 2). MATERIAL: Raw matte clay texture with prominent thumbprints and micro-cracks[cite: 9]. OPTICAL: 50mm, f/8.",
+    "constructed_negative_prompt": "smooth motion, motion blur, glossy render, cinematic easing, readable text, readable numbers, humans, faces[cite: 8]., No text, no digits, no glossy CGI[cite: 9].",
+    "resolved_asset_urls": [
+      "https://engine.srv954959.hstgr.cloud/assets/catalog_files/34_CANON_SCALE_SHEET.png",
+      "https://engine.srv954959.hstgr.cloud/assets/catalog_files/STAGE_STUDIO_34_PORTHOLE_LOCKED.png",
+      "https://engine.srv954959.hstgr.cloud/assets/catalog_files/CUTOUT_SEDAN_HERO_34_SS.jpg",
+      "https://engine.srv954959.hstgr.cloud/assets/catalog_files/CUTOUT_STAIRCASE_5STEP_SS.jpg",
+      "https://engine.srv954959.hstgr.cloud/assets/catalog_files/STYLE_BIBLE_TEXTURE_SPHERE_SS.jpg"
+    ],
+    "resolution": "1K",
+    "variants": 1
+  },
+  "project_config": {
+    "style_presets": {
+      "global_image_style": "Hyper-realistic stop-motion claymation. Handmade matte polymer clay with visible fingerprints, micro-cracks, and tiny dust specks. Dark navy matte seamless studio. Single key light top-left 45\u00b0, crisp hard shadow[cite: 7]. 16:9, 4K. Tactile frame-stepping look, no glossy CGI[cite: 8].",
+      "global_negative_append": "smooth motion, motion blur, glossy render, cinematic easing, readable text, readable numbers, humans, faces[cite: 8]."
+    }
+  },
   "results": {
     "img__csj__B01__P01__start": [
       "/home/roiky/Espacio/hintsly-video-factory/assets/videos/csj_v1_refined/img__csj__B01__P01__start/B01_HOOK/P01/img_start.png"

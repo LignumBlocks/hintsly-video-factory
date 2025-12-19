@@ -101,21 +101,40 @@ def run_diagnostic():
         else:
             print("[FAILURE] No images were generated.")
 
-        # Save JSON log
+        # Save Detailed JSON log
         log_data = {
             "timestamp": datetime.now().isoformat(),
             "project_id": project_id,
             "task_id": task_id,
+            "role": task.role,
+            "job_details": {
+                "nanobanana_payload": client.last_payload,
+                "constructed_prompt": final_p,
+                "constructed_negative_prompt": final_n,
+                "resolved_asset_urls": urls,
+                "resolution": request_model.project.output.resolution_px,
+                "variants": request_model.project.production_rules.nanobanana_variants_per_image_task
+            },
+            "project_config": {
+                "style_presets": request_model.style_presets.model_dump() if request_model.style_presets else None
+            },
             "results": results
         }
-        # Ensure the directory for the log file exists
-        log_dir = os.path.dirname("engine/diagnostic_log.json")
-        if log_dir and not os.path.exists(log_dir):
-            os.makedirs(log_dir)
-            
+
+        # 1. Save global diagnostic log
         with open("engine/diagnostic_log.json", "w") as f:
             json.dump(log_data, f, indent=2)
-        print(f"\n[*] Diagnostic log saved to: engine/diagnostic_log.json")
+        print(f"\n[*] Global diagnostic log saved to: engine/diagnostic_log.json")
+
+        # 2. Save alongside images if possible
+        if task_id in results and results[task_id]:
+            first_file = results[task_id][0]
+            if not first_file.startswith("http"):
+                output_folder = os.path.dirname(first_file)
+                info_path = os.path.join(output_folder, "generation_info.json")
+                with open(info_path, "w") as f:
+                    json.dump(log_data, f, indent=2)
+                print(f"[*] Task-specific info saved to: {info_path}")
 
     except Exception as e:
         print(f"\n[CRITICAL ERROR] Execution failed: {e}")
