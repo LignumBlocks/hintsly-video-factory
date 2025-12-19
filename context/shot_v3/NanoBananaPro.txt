@@ -1,0 +1,748 @@
+{
+  "file_info": {
+    "pipeline_context": "NanoBananaPro_Image_Generation_Refined_Full",
+    "version": "GEM2_NORMALIZE_v2_TECHNICAL",
+    "target_tool": "NanoBananaPro"
+  },
+  "project": {
+    "project_id": "csj_v1_refined",
+    "title": "Hintsly Lab Test 001 — Full Production Refactor",
+    "scope_blocks_included": [
+      "B01_HOOK", "B02_INTRO", "B03_STAIRCASE", "B04_BASELINE", "B05_AZEO", 
+      "B06_BORROW_HISTORY", "B07_TIMING", "B08_RESULT", "B09_REALITY_CHECK", "B10_OUTRO"
+    ],
+    "output": {
+      "aspect_ratio": "16:9",
+      "resolution_px": [3840, 2160],
+      "image_format": "png"
+    },
+    "production_rules": {
+      "nanobanana_max_reference_images": 5,
+      "nanobanana_variants_per_image_task": 2,
+      "approval_gate": "REQUIRED: All image outputs must be approved before video ingestion."
+    }
+  },
+  "asset_library": {
+    "canon_scale_sheets": {
+      "canon_3q": "34_CANON_SCALE_SHEET",
+      "canon_front": "FRONT_CANON_SCALE_SHEET",
+      "canon_overhead": "OVERHEAD_CANON_SCALE_SHEET"
+    },
+    "stage_plates": {
+      "studio_34_porthole": "STAGE_STUDIO_34_PORTHOLE_LOCKED",
+      "studio_34_porthole_open": "STAGE_STUDIO_34_PORTHOLE_OPEN",
+      "studio_34_porthole_slit": "STAGE_STUDIO_34_PORTHOLE_SLIT_5PCT",
+      "macro_navy_dust": "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST",
+      "table_overhead_bowls": "STAGE_TABLE_OVERHEAD_BOWLS_ZONE",
+      "table_overhead_track": "STAGE_TABLE_OVERHEAD_TRACK_TICKMARKS",
+      "table_overhead_timeline": "STAGE_TABLE_OVERHEAD_TIMELINE_GROOVE"
+    },
+    "cutouts": {
+      "sedan_hero": "CUTOUT_SEDAN_HERO_34_SS",
+      "sedan_overhead": "CUTOUT_SEDAN_OVERHEAD_SS",
+      "porthole_locked": "CUTOUT_PORTHOLE_LOCK_CLOSED_SS",
+      "porthole_open": "CUTOUT_PORTHOLE_OPEN_SS",
+      "porthole_slit": "CUTOUT_PORTHOLE_SLIT_5PCT_SS",
+      "staircase_5step": "CUTOUT_STAIRCASE_5STEP_SS",
+      "calendar": "CUTOUT_CALENDAR_SPARSE_OVERHEAD_SS",
+      "marker_amber": "CUTOUT_MARKER_AMBER_PILL_SS",
+      "bowls_full": "CUTOUT_BOWLS_ROW_FULL_BLUE_OVERHEAD_SS",
+      "bowls_azeo": "CUTOUT_BOWLS_ROW_AZEO_OVERHEAD_SS",
+      "bowls_empty": "CUTOUT_BOWLS_ROW_EMPTY_OVERHEAD_SS",
+      "dump_truck": "CUTOUT_DUMP_TRUCK_WITH_ROPE_SS",
+      "rope_braided": "CUTOUT_ROPE_BRAIDED_SS",
+      "warning_triangle": "CUTOUT_WARNING_TRIANGLE_RED_EXCLAMATION_SS",
+      "chips_red_tall": "CUTOUT_CHIPS_RED_STACK_TALL_SS",
+      "chips_neutral_tall": "CUTOUT_CHIPS_NEUTRAL_STACK_TALL_SS",
+      "chips_neutral_short": "CUTOUT_CHIPS_NEUTRAL_STACK_SHORT_SS",
+      "chips_gold_stash": "CUTOUT_CHIPS_GOLD_STASH_IN_CONTAINER_SS",
+      "style_anchor": "STYLE_BIBLE_TEXTURE_SPHERE_SS"
+    }
+  },
+  "style_presets": {
+    "global_image_style": "Hyper-realistic stop-motion claymation. Handmade matte polymer clay with visible fingerprints, micro-cracks, and tiny dust specks. Dark navy matte seamless studio. Single key light top-left 45°, crisp hard shadow[cite: 7]. 16:9, 4K. Tactile frame-stepping look, no glossy CGI[cite: 8].",
+    "global_negative_append": "smooth motion, motion blur, glossy render, cinematic easing, readable text, readable numbers, humans, faces[cite: 8]."
+  },
+  "image_tasks": [
+    {
+      "task_id": "img__csj__B01__P01__start",
+      "block_id": "B01_HOOK",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_STAIRCASE_5STEP_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Stop-motion photography. [MASTER_REF: Slot 1]. SPATIAL: Align subject volumes to the scale sheet in Slot 1. SUBJECT: Grey polymer clay sedan (Ref: Slot 3) at the base of a handmade 5-step clay staircase[cite: 9]. BG: Porthole CLOSED_LOCKED on navy wall (Ref: Slot 2). MATERIAL: Raw matte clay texture with prominent thumbprints and micro-cracks[cite: 9]. OPTICAL: 50mm, f/8.",
+      "negative_prompt": "No text, no digits, no glossy CGI[cite: 9].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B01__P02__start",
+      "block_id": "B01_HOOK",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_CHIPS_RED_STACK_TALL_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Stop-motion A/B comparison. [MASTER_REF: Slot 1]. STRUCTURE: Thin clay divider pole. LEFT: Tall unstable stack of RED pigment-loaded clay chips leaning over the sedan[cite: 10]. RIGHT: Small neat neutral chip pile[cite: 10]. BG: Porthole CLOSED_LOCKED[cite: 11]. MATERIAL: High-density dough feel with thumbprint indentations. LIGHT: Single 5600K softbox.",
+      "negative_prompt": "No red cube, no readable digits, no text[cite: 11].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B01__P03__start",
+      "block_id": "B01_HOOK",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST", "CUTOUT_CHIPS_RED_STACK_TALL_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Extreme macro photography. [MASTER_REF: Slot 1]. OPTICAL: 100mm Macro, f/11. SUBJECT: Tight crop of RED clay chips[cite: 12]. PHYSICS: A tall stack showing gravitational squash and compression into a messy pile[cite: 12]. SURFACE: High-frequency detail showing raw polymer clay cracks and deep tactile fingerprints[cite: 13]. LIGHT: Hard rim light from top-left.",
+      "negative_prompt": "No numbers, no text, no glossy highlights[cite: 13].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B01__P04__start",
+      "block_id": "B01_HOOK",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST", "CUTOUT_RECEIPT_LONG_STRIP_SS", "CUTOUT_CHIPS_NEUTRAL_PILE", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Macro photography. [MASTER_REF: Slot 1]. SUBJECT: A long, thin white clay receipt strip curls forward[cite: 14]. SURFACE: Abstract engraved indentations (NO text)[cite: 14]. FG: Neutral clay chips spilling from a container[cite: 14]. OPTICAL: 85mm, f/5.6 for shallow depth of field[cite: 15]. LIGHT: Diffuse studio lighting.",
+      "negative_prompt": "No readable text, no letters, no logos[cite: 15].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B01__P05__start",
+      "block_id": "B01_HOOK",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_OPEN", "CUTOUT_PORTHOLE_OPEN_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY OPEN revealing a clean diffuse white aperture[cite: 16]. BG: Dark navy matte clay wall[cite: 16]. LIGHT: High-contrast key light top-left[cite: 16]. MATERIAL: Thick mechanical clay ring with visible tool marks.",
+      "negative_prompt": "No light leak, no text, no glossy CGI[cite: 16].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B01__P05__end",
+      "block_id": "B01_HOOK",
+      "shot_id": "P05",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_PORTHOLE_LOCK_CLOSED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY CLOSED_LOCKED[cite: 17]. DETAIL: Horizontal clay slats cover the aperture; no light leak[cite: 17]. PHYSICS: Heavy mechanical feel and dense material weight[cite: 18]. OPTICAL: 50mm, f/11.",
+      "negative_prompt": "No light leak, no text[cite: 18].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B01__P06__start",
+      "block_id": "B01_HOOK",
+      "shot_id": "P06",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_BOWLS_ROW_FULL_BLUE_OVERHEAD_SS", "CUTOUT_CALENDAR_SPARSE_OVERHEAD_SS"],
+      "prompt": "Tabletop lab view. [MASTER_REF: Slot 1]. SUBJECT: Grey sedan, five bowls with blue crumbs, coiled rope, and calendar slab[cite: 19]. DETAIL: Calendar shows abstract engraved marks ONLY (NO digits)[cite: 19]. BG: Porthole CLOSED_LOCKED[cite: 19]. MATERIAL: Matte sulfur-free clay throughout.",
+      "negative_prompt": "No readable numbers, no letters, no text[cite: 19].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B02__P01__start",
+      "block_id": "B02_INTRO",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Clean tabletop setup. [MASTER_REF: Slot 1]. SUBJECT: One grey clay sedan centered on an empty navy surface[cite: 20]. BG: Porthole CLOSED_LOCKED in distance[cite: 20]. STYLE: Premium minimal composition with raw tactile feel[cite: 20]. OPTICAL: 85mm portrait lens, f/8.",
+      "negative_prompt": "No extra props, no text, no CGI[cite: 20].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B02__P02__start",
+      "block_id": "B02_INTRO",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_TIMELINE_GROOVE", "CUTOUT_SEDAN_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead stop-motion. [MASTER_REF: Slot 1]. SUBJECT: Grey clay sedan at the start of an engraved straight timeline groove in the tabletop[cite: 21]. SURFACE: Matte tactile navy surface with subtle dust[cite: 21]. OPTICAL: Orthographic overhead, zero lens distortion. LIGHT: Global softbox.",
+      "negative_prompt": "No numbers, no text[cite: 21].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B02__P03__start",
+      "block_id": "B02_INTRO",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Macro material study. [MASTER_REF: Slot 1]. SUBJECT: Extreme close-up of the raw grey clay texture sphere[cite: 22]. DETAIL: Focus on deep thumbprints, micro-cracks, and dust specks[cite: 22]. No digital magic, purely organic material texture[cite: 22]. OPTICAL: 100mm Macro, f/11.",
+      "negative_prompt": "No glossy highlights, no CGI look[cite: 22].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B02__P04__start",
+      "block_id": "B02_INTRO",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_PORTHOLE_LOCK_CLOSED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter CLOSED_LOCKED[cite: 23]. DETAIL: Heavy mechanical clay slats, no light leak[cite: 23]. BG: Dark navy wall[cite: 23]. MATERIAL: Visible fingerprints on the lock mechanism. LIGHT: Single key light.",
+      "negative_prompt": "No light leak, no text[cite: 23].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B02__P04__end",
+      "block_id": "B02_INTRO",
+      "shot_id": "P04",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_SLIT_5PCT", "CUTOUT_PORTHOLE_SLIT_5PCT_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole with a THIN 5% SLIT AT THE BOTTOM[cite: 24]. LIGHT: A narrow white beam leaks out and grazes the floor[cite: 24]. DETAIL: Visible dust motes illuminated in the beam[cite: 25]. PHYSICS: Mechanical tension in the slats.",
+      "negative_prompt": "Slit must be at the bottom, no top slit, no center slit[cite: 25].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B02__P05__start",
+      "block_id": "B02_INTRO",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_MODULAR_BLOCKS_SET_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Studio setup. [MASTER_REF: Slot 1]. FG: Grey sedan. MID: Three modular grey clay blocks (system components) arranged neatly[cite: 26]. BG: Porthole CLOSED_LOCKED on back wall[cite: 26]. STYLE: Minimalist composition with focus on material weight[cite: 27]. OPTICAL: 50mm, f/8.",
+      "negative_prompt": "No text, no CGI[cite: 27].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B03__P01__start",
+      "block_id": "B03_STAIRCASE",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_STAIRCASE_5STEP_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Dramatic scale. [MASTER_REF: Slot 1]. SUBJECT: Grey clay sedan facing a steep minimalist 5-step clay staircase[cite: 28]. SCALE: Steps feel like massive threshold walls relative to sedan[cite: 28]. BG: Porthole CLOSED_LOCKED[cite: 28]. LIGHT: Dramatic side-lighting to emphasize height.",
+      "negative_prompt": "No text, no numbers[cite: 28].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B03__P02__start",
+      "block_id": "B03_STAIRCASE",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_STAIRCASE_5STEP_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Comparison still with divider pole. [MASTER_REF: Slot 1]. LEFT: Sedan positioned just BELOW the lip of the first staircase step[cite: 29]. RIGHT: Identical sedan positioned clearly ON TOP of the step lip[cite: 29]. BG: Porthole CLOSED_LOCKED[cite: 30]. OPTICAL: 35mm wide angle.",
+      "negative_prompt": "No text, no numbers[cite: 30].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B03__P03__start",
+      "block_id": "B03_STAIRCASE",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_STAIRCASE_5STEP_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Pre-jump state. [MASTER_REF: Slot 1]. SUBJECT: Grey sedan positioned just BELOW the first step lip[cite: 31]. SCALE: Staircase must feel tall and intimidating[cite: 31]. BG: Porthole CLOSED_LOCKED[cite: 31]. OPTICAL: Eye-level 3/4 angle, f/8[cite: 31].",
+      "negative_prompt": "No text, no numbers[cite: 31].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B03__P03__end",
+      "block_id": "B03_STAIRCASE",
+      "shot_id": "P03",
+      "role": "end",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_STAIRCASE_5STEP_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Post-jump state. [MASTER_REF: Slot 1]. SUBJECT: Identical grey sedan clearly ON TOP of the first step[cite: 32]. CONSISTENCY: Sedan model matches start frame exactly (no morphing)[cite: 32]. BG: Porthole CLOSED_LOCKED[cite: 32]. LIGHT: Consistent 5600K softbox.",
+      "negative_prompt": "No sedan morphing, no text[cite: 32].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B03__P04__start",
+      "block_id": "B03_STAIRCASE",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_SLIT_5PCT", "CUTOUT_PORTHOLE_SLIT_5PCT_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole with a THIN 5% SLIT AT THE BOTTOM[cite: 33]. LIGHT: Narrow white beam leaks out with dust motes[cite: 33]. MATERIAL: Heavy mechanical clay texture and visible thumbprints[cite: 33]. OPTICAL: 100mm Macro.",
+      "negative_prompt": "Slit must be at bottom, no text[cite: 33].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B03__P04__end",
+      "block_id": "B03_STAIRCASE",
+      "shot_id": "P04",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_PORTHOLE_LOCK_CLOSED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY CLOSED_LOCKED[cite: 34]. DETAIL: Aperture is sealed; no light leak[cite: 34]. PHYSICS: Heavy mechanical feel and material density[cite: 34]. LIGHT: Consistent studio key.",
+      "negative_prompt": "No light leak, no text[cite: 34].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B03__P05__start",
+      "block_id": "B03_STAIRCASE",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_STAIRCASE_5STEP_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Wide lab view. [MASTER_REF: Slot 1]. SUBJECT: Sedan near the staircase[cite: 35]. SPATIAL: Tabletop includes clear empty space for upcoming chip stacks[cite: 35]. BG: Porthole CLOSED_LOCKED[cite: 36]. OPTICAL: 35mm wide lens to show environment.",
+      "negative_prompt": "No extra props, no text[cite: 36].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B04__P01__start",
+      "block_id": "B04_BASELINE",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_TRACK_TICKMARKS", "CUTOUT_SEDAN_OVERHEAD_SS", "CUTOUT_CHIPS_NEUTRAL_STACK_TALL_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead view. [MASTER_REF: Slot 1]. SUBJECT: Long engraved tick-mark track (NO numbers)[cite: 37]. FG: Grey sedan next to track; tall stack of neutral matte clay chips beside it[cite: 37]. STYLE: Instructional composition with focus on scale[cite: 38]. OPTICAL: Orthographic overhead.",
+      "negative_prompt": "No readable numbers, no letters, no text[cite: 38].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B04__P02__start",
+      "block_id": "B04_BASELINE",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST", "CUTOUT_RECEIPT_LONG_STRIP_SS", "CUTOUT_CHIPS_NEUTRAL_STACK_TALL_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Macro photography. [MASTER_REF: Slot 1]. SUBJECT: White clay receipt strip curls near a tall stack of neutral clay chips[cite: 39]. DETAIL: Receipt has indentations but NO text[cite: 39]. OPTICAL: f/5.6 for shallow depth of field to isolate materials[cite: 39]. LIGHT: Soft side-fill.",
+      "negative_prompt": "No readable text, no letters[cite: 39].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B04__P03__start",
+      "block_id": "B04_BASELINE",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_CHIPS_NEUTRAL_STACK_TALL_SS", "CUTOUT_CHIPS_NEUTRAL_STACK_SHORT_SS"],
+      "prompt": "Cost environment. [MASTER_REF: Slot 1]. SUBJECT: Grey sedan centered[cite: 40]. LEFT: Tall stack of neutral chips. RIGHT: Very short stack of neutral chips[cite: 40]. BG: Porthole CLOSED_LOCKED[cite: 40]. STYLE: Premium minimal set with material contrast[cite: 41].",
+      "negative_prompt": "No text, no numbers[cite: 41].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B04__P04__start",
+      "block_id": "B04_BASELINE",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_SLIT_5PCT", "CUTOUT_PORTHOLE_SLIT_5PCT_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole with a THIN 5% SLIT AT THE BOTTOM[cite: 42]. LIGHT: Narrow white beam grazing the floor; dust motes visible[cite: 42]. MATERIAL: Mechanical slats and high-density clay texture[cite: 42]. OPTICAL: 100mm Macro.",
+      "negative_prompt": "Slit must be at bottom, no text[cite: 42].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B04__P04__end",
+      "block_id": "B04_BASELINE",
+      "shot_id": "P04",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_PORTHOLE_LOCK_CLOSED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY CLOSED_LOCKED (snapshot sealed)[cite: 43]. DETAIL: No light leak[cite: 43]. MATERIAL: Heavy clay slats with visible tool marks[cite: 43]. LIGHT: Consistent key.",
+      "negative_prompt": "No light leak, no text[cite: 43].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B04__P05__start",
+      "block_id": "B04_BASELINE",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_BOWLS_ROW_FULL_BLUE_OVERHEAD_SS", "CUTOUT_CALENDAR_SPARSE_OVERHEAD_SS"],
+      "prompt": "Eligibility checklist. [MASTER_REF: Slot 1]. SUBJECT: Sedan, bowls full of blue crumbs, and calendar slab arranged neatly[cite: 44]. DETAIL: Calendar has ONLY abstract marks (NO digits)[cite: 44]. BG: Porthole CLOSED_LOCKED[cite: 44]. OPTICAL: 50mm, f/8.",
+      "negative_prompt": "No numbers, no text[cite: 44].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B05__P01__start",
+      "block_id": "B05_AZEO",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_BOWLS_ZONE", "CUTOUT_BOWLS_ROW_FULL_BLUE_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead view. [MASTER_REF: Slot 1]. SUBJECT: Five handmade grey clay bowls in a row, all filled with vibrant blue crumbly clay[cite: 45]. BG: Clean navy tabletop[cite: 45]. MATERIAL: Raw matte clay texture and tactile crumbly grain[cite: 45]. OPTICAL: Orthographic overhead.",
+      "negative_prompt": "No numbers, no text[cite: 45].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B05__P02__start",
+      "block_id": "B05_AZEO",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_BOWLS_ZONE", "CUTOUT_BOWLS_ROW_FULL_BLUE_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead view. [MASTER_REF: Slot 1]. SUBJECT: Five bowls in FULL state[cite: 46]. DETAIL: A shallow engraved groove in the tabletop connects the bowls (physical path for crumbs)[cite: 46]. STYLE: Pure material focus, no other objects[cite: 47]. OPTICAL: Orthographic overhead.",
+      "negative_prompt": "No text, no numbers, no bowl morphing[cite: 47].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B05__P02__end",
+      "block_id": "B05_AZEO",
+      "shot_id": "P02",
+      "role": "end",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_BOWLS_ZONE", "CUTOUT_BOWLS_ROW_AZEO_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead view. [MASTER_REF: Slot 1]. SUBJECT: AZEO end state[cite: 48]. DETAIL: Bowls 1-4 are EMPTY; bowl 5 contains a single tiny controlled pinch of blue clay[cite: 48]. SURFACE: Engraved groove contains a small trail of blue crumbs[cite: 49]. OPTICAL: Orthographic overhead.",
+      "negative_prompt": "No bowl morphing, no text[cite: 49].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B05__P03__start",
+      "block_id": "B05_AZEO",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST", "CUTOUT_BOWL_SINGLE_PINCH_MACRO_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Macro photography. [MASTER_REF: Slot 1]. SUBJECT: Single grey clay bowl with ONLY a tiny pinch of blue crumbs at the bottom (5% fill)[cite: 50]. DETAIL: Focus on rim texture and fingerprints[cite: 50]. BG: Dark navy surface[cite: 51]. OPTICAL: 100mm Macro, f/11.",
+      "negative_prompt": "No text, no CGI[cite: 51].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B05__P04__start",
+      "block_id": "B05_AZEO",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_PORTHOLE_LOCK_CLOSED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY CLOSED_LOCKED[cite: 52]. DETAIL: Heavy clay slats, no light leak[cite: 52]. BG: Dark navy wall[cite: 52]. LIGHT: Single key light top-left.",
+      "negative_prompt": "No light leak, no text[cite: 52].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B05__P04__end",
+      "block_id": "B05_AZEO",
+      "shot_id": "P04",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_SLIT_5PCT", "CUTOUT_PORTHOLE_SLIT_5PCT_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole with a THIN 5% SLIT AT THE BOTTOM[cite: 53]. LIGHT: Narrow white beam check; dust motes visible[cite: 53]. MATERIAL: Heavy mechanical slats and thumbprints. OPTICAL: 100mm Macro.",
+      "negative_prompt": "Slit must be at bottom[cite: 53].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B05__P05__start",
+      "block_id": "B05_AZEO",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_BOWLS_ROW_EMPTY_OVERHEAD_SS", "CUTOUT_BOWLS_ROW_AZEO_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Comparison still with divider pole. [MASTER_REF: Slot 1]. LEFT: five bowls COMPLETELY EMPTY[cite: 54]. RIGHT: five bowls where four are empty and the last has a tiny blue pinch (AZEO)[cite: 54]. BG: Porthole CLOSED_LOCKED[cite: 55]. OPTICAL: 35mm wide lens.",
+      "negative_prompt": "No text, no numbers[cite: 55].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B05__P06__start",
+      "block_id": "B05_AZEO",
+      "shot_id": "P06",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_BOWLS_ROW_AZEO_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Studio setup. [MASTER_REF: Slot 1]. FG: Grey sedan. MID: bowls in AZEO state[cite: 56]. BG: Porthole CLOSED_LOCKED[cite: 57]. STYLE: Clean and orderly tabletop with material focus[cite: 56]. OPTICAL: 50mm, f/8.",
+      "negative_prompt": "No text, no numbers[cite: 56].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B06__P01__start",
+      "block_id": "B06_BORROW_HISTORY",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_DUMP_TRUCK_WITH_ROPE_SS", "CUTOUT_ROPE_BRAIDED_SS"],
+      "prompt": "Stop-motion photography. [MASTER_REF: Slot 1]. SUBJECT: Rugged grey clay dump truck sits behind the grey sedan[cite: 57]. PHYSICS: A thick braided clay rope connects them and lies SLACK on the floor with a clear curve[cite: 58]. BG: Porthole CLOSED_LOCKED[cite: 59]. LIGHT: 5600K key light.",
+      "negative_prompt": "Rope must be slack, no text, no CGI[cite: 59].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B06__P02__start",
+      "block_id": "B06_BORROW_HISTORY",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST", "CUTOUT_ROPE_BRAIDED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Macro photography. [MASTER_REF: Slot 1]. SUBJECT: Braided clay rope fibers with visible fingerprints and playdough texture[cite: 59]. PHYSICS: Rope is SLACK with a gentle bend[cite: 60]. LIGHT: Crisp shadow from top-left[cite: 60]. OPTICAL: 100mm Macro, f/11.",
+      "negative_prompt": "No smooth metal, no glossy CGI[cite: 60].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B06__P03__start",
+      "block_id": "B06_BORROW_HISTORY",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_DUMP_TRUCK_WITH_ROPE_SS", "CUTOUT_ROPE_BRAIDED_SS"],
+      "prompt": "Stop-motion photography. [MASTER_REF: Slot 1]. SUBJECT: Dump truck connected to sedan by rope[cite: 61]. PHYSICS: Rope is now TAUT (straightened), and sedan sits slightly forward[cite: 61]. BG: Porthole CLOSED_LOCKED[cite: 62]. LIGHT: Dramatic key light emphasizing tension.",
+      "negative_prompt": "No text, no CGI[cite: 62].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B06__P04__start",
+      "block_id": "B06_BORROW_HISTORY",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST", "CUTOUT_WARNING_TRIANGLE_RED_EXCLAMATION_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Macro photography. [MASTER_REF: Slot 1]. SUBJECT: Bright red clay warning triangle with a simple embossed exclamation mark[cite: 62]. DETAIL: Visible handmade imperfections and raw clay grain[cite: 63]. STYLE: Fragile risk feel[cite: 63]. OPTICAL: 85mm Macro, f/8.",
+      "negative_prompt": "No printed text, no letters[cite: 63].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B06__P05__start",
+      "block_id": "B06_BORROW_HISTORY",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_DUMP_TRUCK_WITH_ROPE_SS", "CUTOUT_WARNING_TRIANGLE_RED_EXCLAMATION_SS"],
+      "prompt": "Full relationship view. [MASTER_REF: Slot 1]. FG: Dump truck behind sedan; rope is TAUT with moderate tension[cite: 64]. BG: Warning triangle is far in background and out of focus[cite: 64]. BG Wall: Porthole CLOSED_LOCKED[cite: 65]. OPTICAL: 35mm wide lens.",
+      "negative_prompt": "No text, no CGI[cite: 65].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B07__P01__start",
+      "block_id": "B07_TIMING",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_CALENDAR_SPARSE_OVERHEAD_SS", "CUTOUT_MARKER_AMBER_PILL_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "A/B comparison with divider. [MASTER_REF: Slot 1]. SUBJECT: Two calendar slabs with abstract marks ONLY (NO digits)[cite: 66]. LEFT: amber marker sits late[cite: 66]. RIGHT: marker sits earlier near a subtle snapshot dent[cite: 66]. BG: Porthole CLOSED_LOCKED[cite: 67]. OPTICAL: 50mm lens.",
+      "negative_prompt": "No readable numbers, no letters, no text[cite: 67].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B07__P02__start",
+      "block_id": "B07_TIMING",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_NAVY_EMPTY", "CUTOUT_CALENDAR_SPARSE_OVERHEAD_SS", "CUTOUT_MARKER_AMBER_PILL_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead view. [MASTER_REF: Slot 1]. SUBJECT: Sparse clay calendar slab with abstract marks ONLY (NO digits)[cite: 67]. DETAIL: Slab MUST include a physical dent/imprint at the snapshot zone[cite: 68]. FG: Amber marker sits late near bottom[cite: 69]. OPTICAL: Orthographic overhead.",
+      "negative_prompt": "No readable numbers, no letters, no text[cite: 69].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B07__P03__start",
+      "block_id": "B07_TIMING",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_SLIT_5PCT", "CUTOUT_PORTHOLE_SLIT_5PCT_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole with a THIN 5% SLIT AT THE BOTTOM[cite: 70]. LIGHT: Narrow white beam leaks along floor line; dust motes visible[cite: 70]. MATERIAL: Heavy mechanical clay slats and thumbprints[cite: 71]. OPTICAL: 100mm Macro.",
+      "negative_prompt": "Slit must be at bottom[cite: 71].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B07__P03__end",
+      "block_id": "B07_TIMING",
+      "shot_id": "P03",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_PORTHOLE_LOCK_CLOSED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY CLOSED_LOCKED[cite: 71]. DETAIL: Sealed aperture, no light leak[cite: 72]. PHYSICS: Heavy mechanical feel and material density[cite: 72]. LIGHT: Consistent key light.",
+      "negative_prompt": "No light leak, no text[cite: 72].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B07__P04__start",
+      "block_id": "B07_TIMING",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_CALENDAR_SPARSE_OVERHEAD_SS", "CUTOUT_MARKER_AMBER_PILL_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Contrast still. [MASTER_REF: Slot 1]. LEFT: marker sits LATE[cite: 72]. RIGHT: marker sits EARLY before the snapshot dent[cite: 73]. BG: Porthole CLOSED_LOCKED in background[cite: 74]. MATERIAL: Matte polymer clay with thumbprints. OPTICAL: 50mm.",
+      "negative_prompt": "No readable numbers, no letters, no text[cite: 74].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B07__P05__start",
+      "block_id": "B07_TIMING",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_BOWLS_ZONE", "CUTOUT_BOWLS_ROW_FULL_BLUE_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead view. [MASTER_REF: Slot 1]. SUBJECT: Five bowls with blue clay crumbs (full state) arranged cleanly on tabletop[cite: 74]. STYLE: Preparation for report, minimal and instructional[cite: 75]. OPTICAL: Orthographic overhead.",
+      "negative_prompt": "No text, no numbers[cite: 75].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B07__P05__end",
+      "block_id": "B07_TIMING",
+      "shot_id": "P05",
+      "role": "end",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_BOWLS_ZONE", "CUTOUT_BOWLS_ROW_AZEO_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead view. [MASTER_REF: Slot 1]. SUBJECT: End snapshot look[cite: 76]. DETAIL: Four bowls EMPTY; one tiny pinch remains in the last bowl[cite: 76]. STYLE: Clean lab framing with focus on material absence[cite: 77]. OPTICAL: Orthographic overhead.",
+      "negative_prompt": "No numbers, no text, no morphing[cite: 77].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B07__P06__start",
+      "block_id": "B07_TIMING",
+      "shot_id": "P06",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_OPEN", "CUTOUT_PORTHOLE_OPEN_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY OPEN revealing a clean white aperture[cite: 77]. BG: Heavy mechanical ring; dark navy wall[cite: 78]. MATERIAL: Matte clay with visible tool marks. LIGHT: High-contrast key.",
+      "negative_prompt": "No light leak from slats, no text[cite: 78].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B07__P06__end",
+      "block_id": "B07_TIMING",
+      "shot_id": "P06",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_PORTHOLE_LOCK_CLOSED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY CLOSED_LOCKED[cite: 79]. DETAIL: Heavy mechanical slats, no light leak[cite: 79]. PHYSICS: Sealed aperture and dense material weight[cite: 79]. OPTICAL: 85mm Macro.",
+      "negative_prompt": "No light leak, no text[cite: 79].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B08__P01__start",
+      "block_id": "B08_RESULT",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_CHIPS_NEUTRAL_STACK_TALL_SS", "CUTOUT_CHIPS_NEUTRAL_STACK_SHORT_SS"],
+      "prompt": "Before vs After comparison. [MASTER_REF: Slot 1]. STRUCTURE: Divider pole. LEFT: sedan beside TALL stack of neutral chips[cite: 80]. RIGHT: identical sedan beside SHORT stack[cite: 80]. BG: Porthole CLOSED_LOCKED[cite: 81]. OPTICAL: 35mm wide lens.",
+      "negative_prompt": "No text, no numbers[cite: 81].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B08__P02__start",
+      "block_id": "B08_RESULT",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_STAIRCASE_5STEP_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Pre-band change. [MASTER_REF: Slot 1]. SUBJECT: Grey sedan clearly BELOW the next staircase step[cite: 81]. MATERIAL: Staircase is tall with handmade edges and thumbprints[cite: 82]. BG: Porthole CLOSED_LOCKED[cite: 82]. OPTICAL: Eye-level 3/4 angle, f/8[cite: 83].",
+      "negative_prompt": "No text, no numbers[cite: 83].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B08__P02__end",
+      "block_id": "B08_RESULT",
+      "shot_id": "P02",
+      "role": "end",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_STAIRCASE_5STEP_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Post-band change. [MASTER_REF: Slot 1]. SUBJECT: SAME sedan clearly ON TOP of the next staircase step[cite: 84]. CONSISTENCY: Staircase unchanged; sedan must match start frame (no morphing)[cite: 84]. BG: Porthole CLOSED_LOCKED[cite: 85]. LIGHT: Consistent studio key.",
+      "negative_prompt": "No sedan morphing, no text[cite: 84].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B08__P03__start",
+      "block_id": "B08_RESULT",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST", "CUTOUT_CHIPS_GOLD_STASH_IN_CONTAINER_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Reward still. [MASTER_REF: Slot 1]. SUBJECT: A hollow grey clay container holds a messy pile of matte gold clay chips[cite: 85]. MATERIAL: Handmade edges and visible fingerprints[cite: 86]. STYLE: Satisfying 'kept in pocket' feel and organic weight[cite: 86]. OPTICAL: 100mm Macro, f/11.",
+      "negative_prompt": "No glossy highlights, no CGI[cite: 86].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B08__P04__start",
+      "block_id": "B08_RESULT",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_PORTHOLE_LOCK_CLOSED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY CLOSED_LOCKED[cite: 87]. DETAIL: Heavy mechanical slats, no light leak[cite: 87]. BG: Dark navy wall[cite: 87]. MATERIAL: Visible thumbprints on the metal-like clay mechanism.",
+      "negative_prompt": "No light leak, no text[cite: 87].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B08__P04__end",
+      "block_id": "B08_RESULT",
+      "shot_id": "P04",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_OPEN", "CUTOUT_PORTHOLE_OPEN_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY OPEN revealing white aperture[cite: 88]. STYLE: Relief and 'new deal' opening feel[cite: 88]. MATERIAL: Heavy mechanical texture and organic flaws. LIGHT: Intense aperture glow.",
+      "negative_prompt": "No light leak from slats[cite: 88].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B08__P05__start",
+      "block_id": "B08_RESULT",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_CHIPS_GOLD_STASH_IN_CONTAINER_SS"],
+      "prompt": "Stable reward. [MASTER_REF: Slot 1]. FG: Grey sedan centered on empty tabletop[cite: 89]. BG: In far background, gold chip stash is barely visible and out of focus[cite: 89]. STYLE: Premium minimal composition with depth[cite: 90]. OPTICAL: 85mm, f/4.",
+      "negative_prompt": "No text, no CGI[cite: 90].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B09__P01__start",
+      "block_id": "B09_REALITY_CHECK",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_MACRO_NAVY_SURFACE_SUBTLE_DUST", "CUTOUT_WARNING_TRIANGLE_RED_EXCLAMATION_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Serious warning. [MASTER_REF: Slot 1]. SUBJECT: Macro view of the red warning triangle with embossed exclamation mark[cite: 91]. LIGHT: Hard crisp shadow from top-left[cite: 91]. STYLE: Centered and serious: 'no miracles' feel[cite: 91]. OPTICAL: 100mm Macro.",
+      "negative_prompt": "No printed text, no letters[cite: 91].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B09__P02__start",
+      "block_id": "B09_REALITY_CHECK",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_BOWLS_ROW_AZEO_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Fragile regression. [MASTER_REF: Slot 1]. SUBJECT: Bowls in AZEO state[cite: 92]. DETAIL: A few loose blue crumbs sit nearby as if creeping back into empty bowls[cite: 92]. BG: Porthole CLOSED_LOCKED in background[cite: 92]. STYLE: Minimal and readable[cite: 93].",
+      "negative_prompt": "No text, no numbers[cite: 93].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B09__P03__start",
+      "block_id": "B09_REALITY_CHECK",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_DUMP_TRUCK_WITH_ROPE_SS", "CUTOUT_ROPE_BRAIDED_SS"],
+      "prompt": "Dangerous tension. [MASTER_REF: Slot 1]. SUBJECT: Dump truck connected to sedan by rope[cite: 94]. PHYSICS: Rope is VERY TAUT, suggesting danger[cite: 94]. Sedan is slightly pulled backward by tension[cite: 94]. BG: Porthole CLOSED_LOCKED[cite: 95]. LIGHT: Dramatic key light.",
+      "negative_prompt": "No text, no numbers[cite: 95].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B09__P04__start",
+      "block_id": "B09_REALITY_CHECK",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_OPEN", "CUTOUT_PORTHOLE_OPEN_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY OPEN with white aperture[cite: 96]. MATERIAL: Heavy ring texture and organic clay flaws[cite: 96]. BG: Dark navy wall. LIGHT: Intense central aperture glow.",
+      "negative_prompt": "No light leak from slats[cite: 96].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B09__P04__end",
+      "block_id": "B09_REALITY_CHECK",
+      "shot_id": "P04",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_SLIT_5PCT", "CUTOUT_PORTHOLE_SLIT_5PCT_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole almost closed with a THIN 5% SLIT AT THE BOTTOM[cite: 97]. LIGHT: Narrow beam with dust motes: 'signal discounted' feel[cite: 97]. MATERIAL: Heavy slats and thumbprints[cite: 97]. OPTICAL: 100mm Macro.",
+      "negative_prompt": "Slit must be at bottom[cite: 97].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B09__P05__start",
+      "block_id": "B09_REALITY_CHECK",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_FLOOR_MARK_LINE_SS"],
+      "prompt": "Precision alignment. [MASTER_REF: Slot 1]. SUBJECT: Shallow engraved floor mark line shows precise stop point[cite: 98]. FG: Grey sedan aligned EXACTLY on the mark[cite: 98]. BG: Porthole CLOSED_LOCKED[cite: 98]. STYLE: Minimalist precision composition[cite: 99]. OPTICAL: 50mm, f/8.",
+      "negative_prompt": "No text, no numbers[cite: 99].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B10__P01__start",
+      "block_id": "B10_OUTRO",
+      "shot_id": "P01",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_SEDAN_HERO_34_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Prepare snapshot. [MASTER_REF: Slot 1]. SUBJECT: Grey sedan faces the back wall where porthole is CLOSED_LOCKED[cite: 100]. STYLE: Strong negative space and premium tension[cite: 100]. MATERIAL: Matte polymer clay with visible grain. OPTICAL: 50mm.",
+      "negative_prompt": "No text, no numbers[cite: 100].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B10__P02__start",
+      "block_id": "B10_OUTRO",
+      "shot_id": "P02",
+      "role": "start",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_BOWLS_ZONE", "CUTOUT_BOWLS_ROW_AZEO_OVERHEAD_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "AZEO final state. [MASTER_REF: Slot 1]. SUBJECT: Overhead view of five bowls where four are empty and the last has a tiny blue pinch[cite: 101]. STYLE: Clean instructional composition with material focus[cite: 101]. OPTICAL: Orthographic overhead.",
+      "negative_prompt": "No numbers, no text[cite: 101].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B10__P03__start",
+      "block_id": "B10_OUTRO",
+      "shot_id": "P03",
+      "role": "start",
+      "refs": ["34_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_DUMP_TRUCK_WITH_ROPE_SS", "CUTOUT_SEDAN_HERO_34_SS", "CUTOUT_ROPE_BRAIDED_SS"],
+      "prompt": "Careful control. [MASTER_REF: Slot 1]. SUBJECT: Dump truck behind sedan connected by rope with MODERATE tension[cite: 102]. PHYSICS: Controlled, stable alignment and heavy material feel[cite: 102]. BG: Porthole CLOSED_LOCKED[cite: 102]. OPTICAL: 35mm wide lens.",
+      "negative_prompt": "No text, no numbers[cite: 102].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B10__P04__start",
+      "block_id": "B10_OUTRO",
+      "shot_id": "P04",
+      "role": "start",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_NAVY_EMPTY", "CUTOUT_CALENDAR_SPARSE_OVERHEAD_SS", "CUTOUT_MARKER_AMBER_PILL_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead view. [MASTER_REF: Slot 1]. SUBJECT: Calendar slab with abstract marks ONLY (NO digits)[cite: 103]. DETAIL: Amber capsule marker starts at a late tick cluster[cite: 103]. STYLE: Clean and minimal tabletop lab aesthetic[cite: 104]. OPTICAL: Orthographic overhead.",
+      "negative_prompt": "No readable numbers, no letters, no text[cite: 104].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B10__P04__end",
+      "block_id": "B10_OUTRO",
+      "shot_id": "P04",
+      "role": "end",
+      "refs": ["OVERHEAD_CANON_SCALE_SHEET", "STAGE_TABLE_OVERHEAD_NAVY_EMPTY", "CUTOUT_CALENDAR_SPARSE_OVERHEAD_SS", "CUTOUT_MARKER_AMBER_PILL_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Overhead view. [MASTER_REF: Slot 1]. SUBJECT: Calendar with abstract marks ONLY[cite: 105]. DETAIL: Amber capsule now locked on an EARLIER tick before the snapshot dent[cite: 105]. OPTICAL: Orthographic overhead, consistent lighting.",
+      "negative_prompt": "No readable numbers, no letters, no text[cite: 105].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B10__P05__start",
+      "block_id": "B10_OUTRO",
+      "shot_id": "P05",
+      "role": "start",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_SLIT_5PCT", "CUTOUT_PORTHOLE_SLIT_5PCT_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Close-up claymation. [MASTER_REF: Slot 1]. SUBJECT: Porthole with a THIN 5% SLIT AT THE BOTTOM[cite: 106]. LIGHT: Narrow white beam with dust motes[cite: 106]. MATERIAL: Heavy mechanical slats and organic clay flaws[cite: 106]. OPTICAL: 100mm Macro.",
+      "negative_prompt": "Slit must be at bottom[cite: 106].",
+      "approval": { "status": "PENDING_REVIEW" }
+    },
+    {
+      "task_id": "img__csj__B10__P05__end",
+      "block_id": "B10_OUTRO",
+      "shot_id": "P05",
+      "role": "end",
+      "refs": ["FRONT_CANON_SCALE_SHEET", "STAGE_STUDIO_34_PORTHOLE_LOCKED", "CUTOUT_PORTHOLE_LOCK_CLOSED_SS", "STYLE_BIBLE_TEXTURE_SPHERE_SS"],
+      "prompt": "Final seal. [MASTER_REF: Slot 1]. SUBJECT: Porthole shutter FULLY CLOSED_LOCKED[cite: 107]. DETAIL: Sealed aperture, no light leak[cite: 107]. PHYSICS: Heavy mechanical feel and material density[cite: 107]. STYLE: End of production aesthetic[cite: 108].",
+      "negative_prompt": "No light leak, no text[cite: 108].",
+      "approval": { "status": "PENDING_REVIEW" }
+    }
+  ]
+}

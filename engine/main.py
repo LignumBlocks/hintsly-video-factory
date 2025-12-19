@@ -10,12 +10,15 @@ from domain.entities import Shot, ShotEstado
 from usecases.process_shot import ProcessShot
 from usecases.regenerate_shot import RegenerateShot
 from usecases.utils_prompt import PromptService
+from usecases.ingest_nanobanana import IngestNanoBanana
+from domain.nanobanana_models import NanoBananaRequest
 from adapters.fs_adapter import FSAdapter
 from adapters.gemini_client import GeminiImageClient
 from adapters.veo_client import VeoClient
 from adapters.logger import Logger
 from infra.paths import ASSETS_DIR
 from adapters.assets_repository import AssetsRepository
+from adapters.nanobanana_repository import NanoBananaRepository
 from infra.config import Config
 
 # Initialize FastAPI app
@@ -43,8 +46,10 @@ fs_adapter = FSAdapter()
 prompt_service = PromptService()
 gemini_client = GeminiImageClient()
 veo_client = VeoClient()
+
 logger = Logger()
 assets_repository = AssetsRepository(Config.ASSETS_CATALOG_PATH, Config.ASSETS_FILES_DIR)
+nanobanana_repository = NanoBananaRepository()
 
 # Instantiate use cases
 process_shot_usecase = ProcessShot(
@@ -56,6 +61,7 @@ process_shot_usecase = ProcessShot(
     assets_repository
 )
 regenerate_shot_usecase = RegenerateShot(process_shot_usecase)
+ingest_nanobanana_usecase = IngestNanoBanana(nanobanana_repository, logger)
 
 
 # Response Models
@@ -71,6 +77,12 @@ class HealthResponse(BaseModel):
     service: str
     version: str
     public_base_url: str
+
+class IngestResponse(BaseModel):
+    """Response for NanoBanana ingestion"""
+    success: bool
+    project_id: str
+    message: str
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -192,6 +204,25 @@ def regenerate_shot(shot: Shot):
         logger.error(f"Error regenerating shot: {e}")
         logger.error(traceback.format_exc())
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Internal server error: {str(e)}"
+        )
+
+@app.post("/nanobanana/ingest", response_model=IngestResponse)
+def ingest_nanobanana(request: NanoBananaRequest):
+    """
+    Ingest a NanoBananaPro project JSON definition.
+    """
+    try:
+        project_id = ingest_nanobanana_usecase.execute(request)
+        return IngestResponse(
+            success=True,
+            project_id=project_id,
+            message=f"Project {project_id} ingested successfully"
+        )
+    except Exception as e:
+        logger.error(f"Error ingesting NanoBanana project: {e}")
+        logger.error(traceback.format_exc())
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error ingesting project: {str(e)}"
         )
