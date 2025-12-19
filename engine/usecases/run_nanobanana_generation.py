@@ -87,7 +87,8 @@ class RunNanoBananaGeneration:
                                 
                                 # Resolve local path to public URL
                                 rel_path = os.path.relpath(filepath, start=str(ASSETS_DIR))
-                                public_url = f"{self.public_base_url}/assets/{rel_path.replace('\\', '/')}"
+                                rel_path_url = rel_path.replace('\\', '/')
+                                public_url = f"{self.public_base_url}/assets/{rel_path_url}"
                                 self.logger.info(f"Saved locally: {public_url}")
                             else:
                                 self.logger.error(f"Failed to download {url}: {resp.status_code}")
@@ -159,12 +160,13 @@ class RunNanoBananaGeneration:
                  path = self.assets_repository.resolve_file_path(asset.file_name)
                  if path:
                      try:
-                        rel_path = os.path.relpath(path, start=str(ASSETS_DIR))
-                        url = f"{self.public_base_url}/assets/{rel_path.replace('\\', '/')}"
-                        detailed_refs.append({
-                            "ref_id": ref_id,
-                            "resolved_url": url
-                        })
+                         rel_path = os.path.relpath(path, start=str(ASSETS_DIR))
+                         rel_path_url = rel_path.replace('\\', '/')
+                         url = f"{self.public_base_url}/assets/{rel_path_url}"
+                         detailed_refs.append({
+                             "ref_id": ref_id,
+                             "resolved_url": url
+                         })
                      except ValueError:
                         self.logger.warning(f"Asset path {path} is not inside ASSETS_DIR {ASSETS_DIR}")
         return detailed_refs
