@@ -29,6 +29,7 @@ services:
       
       # Public URL (CRITICAL for Veo image-to-video)
       - PUBLIC_BASE_URL=https://engine.srv954959.hstgr.cloud
+      - ASSETS_FILES_DIR=/assets/catalog_files
       
       # Google API (legacy/fallback)
       - GEMINI_API_KEY=${GEMINI_API_KEY}
